@@ -5,3 +5,7 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/HinesightSolutions/Website.git
 git push -u origin main
+npm i @vercel/analytics
+yarn add @vercel/analytics
+pnpm i @vercel/analytics
+import { Analytics } from "@vercel/analytics/next"
