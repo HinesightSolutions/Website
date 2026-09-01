@@ -32,12 +32,13 @@ const observer = new IntersectionObserver(
 revealEls.forEach((el) => observer.observe(el));
 
 // Record high-intent contact actions in Google Analytics when available.
-document.querySelectorAll('a[href^="tel:"], a[href^="mailto:"], a[href*="app.ringy.com/book/hinesightsolutions"]').forEach((link) => {
+document.querySelectorAll('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"], a[href*="app.ringy.com/book/hinesightsolutions"]').forEach((link) => {
   link.addEventListener("click", () => {
     if (typeof window.gtag !== "function") return;
 
     let method = "booking";
     if (link.href.startsWith("tel:")) method = "phone";
+    if (link.href.startsWith("sms:")) method = "text";
     if (link.href.startsWith("mailto:")) method = "email";
 
     window.gtag("event", "generate_lead", {
