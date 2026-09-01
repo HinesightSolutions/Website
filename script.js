@@ -31,6 +31,15 @@ const observer = new IntersectionObserver(
 
 revealEls.forEach((el) => observer.observe(el));
 
+const mobileActionBar = document.querySelector(".mobile-action-bar");
+if (mobileActionBar && !mobileActionBar.querySelector('a[href^="sms:"]')) {
+  const bookingLink = mobileActionBar.querySelector('a[href*="app.ringy.com/book/hinesightsolutions"]');
+  const textLink = document.createElement("a");
+  textLink.href = "sms:4233314251";
+  textLink.textContent = "Text";
+  mobileActionBar.insertBefore(textLink, bookingLink);
+}
+
 // Record high-intent contact actions in Google Analytics when available.
 document.querySelectorAll('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"], a[href*="app.ringy.com/book/hinesightsolutions"]').forEach((link) => {
   link.addEventListener("click", () => {
