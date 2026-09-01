@@ -1632,7 +1632,7 @@ a {
     bottom: 0;
     left: 0;
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 0.7fr 0.7fr 1.2fr;
     min-height: 62px;
     padding: 8px;
     background: var(--white);
@@ -1649,6 +1649,10 @@ a {
     font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
+  }
+
+  .mobile-action-bar a:nth-child(2) {
+    border-left: 1px solid var(--border);
   }
 
   .mobile-action-bar a:last-child {
