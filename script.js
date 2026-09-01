@@ -57,3 +57,52 @@ document.querySelectorAll('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"],
     });
   });
 });
+
+
+const licenseButtons = document.querySelectorAll(".state-license-button");
+const licenseModal = document.getElementById("license-modal");
+let licenseTrigger = null;
+
+if (licenseButtons.length && licenseModal) {
+  const title = document.getElementById("license-modal-title");
+  const type = document.getElementById("license-modal-type");
+  const authority = document.getElementById("license-modal-authority");
+  const issued = document.getElementById("license-modal-issued");
+  const expiration = document.getElementById("license-modal-expiration");
+  const closeButton = licenseModal.querySelector(".license-modal-close");
+
+  const closeLicenseModal = () => {
+    licenseModal.hidden = true;
+    document.body.classList.remove("modal-open");
+    if (licenseTrigger) licenseTrigger.focus();
+  };
+
+  licenseButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      licenseTrigger = button;
+      title.textContent = button.dataset.state;
+      type.textContent = button.dataset.licenseType;
+      authority.textContent = button.dataset.authority;
+      issued.textContent = button.dataset.issued;
+      expiration.textContent = button.dataset.expiration;
+      licenseModal.hidden = false;
+      document.body.classList.add("modal-open");
+      closeButton.focus();
+
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "view_license_preview", {
+          state: button.dataset.state,
+          page_location: window.location.href
+        });
+      }
+    });
+  });
+
+  licenseModal.querySelectorAll("[data-license-close]").forEach((element) => {
+    element.addEventListener("click", closeLicenseModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !licenseModal.hidden) closeLicenseModal();
+  });
+}
