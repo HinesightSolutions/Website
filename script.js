@@ -151,6 +151,8 @@ if (licenseButtons.length && licenseModal) {
   const viewLink = document.getElementById("license-view-link");
   const downloadLink = document.getElementById("license-download-link");
   const status = document.getElementById("license-preview-status");
+  const actionRow = licenseModal.querySelector(".license-preview-actions");
+  if (actionRow) actionRow.style.marginTop = "24px";
 
   const setLinksDisabled = (message) => {
     [viewLink, downloadLink].forEach((link) => {
