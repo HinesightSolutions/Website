@@ -1,5 +1,6 @@
 (() => {
   const CONFIG_KEY = 'hs-sales-command-sheet-v1';
+  const DEFAULT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxrV9rG_aylUm9dglfI1UMESMmUlLtQjhmX2ciGz5AHFHhRe3g1MWvYtYryiAd7iDz8-w/exec';
   const STAGES = [
     'Positive Response',
     'Appointment Set',
@@ -28,19 +29,17 @@
     catch { return null; }
   }
 
-  function saveConfig(endpoint, token) {
-    const value = { endpoint: endpoint.trim(), token: token.trim() };
+  function saveConfig(token) {
+    const value = { endpoint: DEFAULT_ENDPOINT, token: token.trim() };
     localStorage.setItem(CONFIG_KEY, JSON.stringify(value));
     return value;
   }
 
   function configure() {
     const current = getConfig() || {};
-    const endpoint = prompt('Paste your Google Apps Script /exec URL:', current.endpoint || '');
-    if (!endpoint) return null;
     const token = prompt('Paste the private webhook token. It stays only in this browser:', current.token || '');
     if (!token) return null;
-    const cfg = saveConfig(endpoint, token);
+    const cfg = saveConfig(token);
     if (typeof tip === 'function') tip('Pipeline connection saved on this device');
     return cfg;
   }
@@ -79,7 +78,7 @@
 
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = cfg.endpoint;
+    form.action = DEFAULT_ENDPOINT;
     form.target = iframeName;
     form.style.display = 'none';
 
@@ -101,9 +100,6 @@
     document.body.appendChild(form);
     form.submit();
 
-    // The Apps Script web app is cross-origin, so the page cannot safely read
-    // the response. Update the card optimistically after submission; the Sheet
-    // remains the source of truth and can be refreshed if the write is rejected.
     setTimeout(() => {
       if (pill) {
         pill.textContent = stage;
