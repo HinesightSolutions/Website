@@ -57,9 +57,15 @@ const LICENSE_PACK_PARTS = [
   "licenses/data/license-pack-gz-05.b64",
   "licenses/data/license-pack-gz-06.b64",
   "licenses/data/license-pack-gz-07.b64",
-  "licenses/data/license-pack-gz-08.b64",
+  "licenses/data/live-pack-gz-08.b64",
   "licenses/data/license-pack-final-09.b64",
-  "licenses/data/license-pack-gz-10.b64"
+  "licenses/data/license-pack-tail-01.b64",
+  "licenses/data/license-pack-tail-02.b64",
+  "licenses/data/license-pack-tail-03.b64",
+  "licenses/data/license-pack-tail-04.b64",
+  "licenses/data/license-pack-tail-05.b64",
+  "licenses/data/license-pack-tail-06.b64",
+  "licenses/data/license-pack-tail-07.b64"
 ];
 
 let licenseFilesPromise = null;
