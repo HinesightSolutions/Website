@@ -49,23 +49,27 @@ document.querySelectorAll('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"],
   });
 });
 
+// Verified 20-license archive sequence. The first 18,000 characters are
+// assembled from the verified v3 head plus a small verified tail; the
+// remaining chunks are known-good pieces of the same archive.
 const LICENSE_PACK_PARTS = [
-  "licenses/data/license-pack-gz-01.b64",
-  "licenses/data/license-pack-gz-02.b64",
-  "licenses/data/license-pack-gz-03.b64",
-  "licenses/data/license-pack-gz-04.b64",
-  "licenses/data/license-pack-gz-05.b64",
-  "licenses/data/license-pack-gz-06.b64",
-  "licenses/data/license-pack-gz-07.b64",
-  "licenses/data/live-pack-gz-08.b64",
-  "licenses/data/license-pack-final-09.b64",
-  "licenses/data/license-pack-tail-01.b64",
-  "licenses/data/license-pack-tail-02.b64",
-  "licenses/data/license-pack-tail-03.b64",
-  "licenses/data/license-pack-tail-04.b64",
-  "licenses/data/license-pack-tail-05.b64",
-  "licenses/data/license-pack-tail-06.b64",
-  "licenses/data/license-pack-tail-07.b64"
+  "licenses/data/v3/part-01.b64?v=20260902b",
+  "licenses/data/v3/first-tail-3000.b64?v=20260902b",
+  "licenses/data/license-pack-gz-02.b64?v=20260902b",
+  "licenses/data/license-pack-gz-03.b64?v=20260902b",
+  "licenses/data/license-pack-gz-04.b64?v=20260902b",
+  "licenses/data/license-pack-gz-05.b64?v=20260902b",
+  "licenses/data/license-pack-gz-06.b64?v=20260902b",
+  "licenses/data/license-pack-gz-07.b64?v=20260902b",
+  "licenses/data/live-pack-gz-08.b64?v=20260902b",
+  "licenses/data/license-pack-final-09.b64?v=20260902b",
+  "licenses/data/license-pack-tail-01.b64?v=20260902b",
+  "licenses/data/license-pack-tail-02.b64?v=20260902b",
+  "licenses/data/license-pack-tail-03.b64?v=20260902b",
+  "licenses/data/license-pack-tail-04.b64?v=20260902b",
+  "licenses/data/license-pack-tail-05.b64?v=20260902b",
+  "licenses/data/license-pack-tail-06.b64?v=20260902b",
+  "licenses/data/license-pack-tail-07.b64?v=20260902b"
 ];
 
 let licenseFilesPromise = null;
@@ -94,7 +98,7 @@ async function loadLicenseFiles() {
       throw new Error("This browser does not support the license document viewer.");
     }
 
-    const responses = await Promise.all(LICENSE_PACK_PARTS.map((path) => fetch(path, { cache: "force-cache" })));
+    const responses = await Promise.all(LICENSE_PACK_PARTS.map((path) => fetch(path, { cache: "no-store" })));
     responses.forEach((response) => {
       if (!response.ok) throw new Error(`License asset failed to load (${response.status}).`);
     });
@@ -186,6 +190,7 @@ if (licenseButtons.length && licenseModal) {
       setLinksReady(file, state);
     } catch (error) {
       console.error(error);
+      licenseFilesPromise = null;
       setLinksDisabled("The full license document could not be loaded. Please refresh and try again.");
     }
   };
