@@ -16,7 +16,6 @@ if (menuButton && navLinks) {
 }
 
 const revealEls = document.querySelectorAll(".reveal");
-
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -28,7 +27,6 @@ const observer = new IntersectionObserver(
   },
   { threshold: 0.13 }
 );
-
 revealEls.forEach((el) => observer.observe(el));
 
 const mobileActionBar = document.querySelector(".mobile-action-bar");
@@ -40,24 +38,94 @@ if (mobileActionBar && !mobileActionBar.querySelector('a[href^="sms:"]')) {
   mobileActionBar.insertBefore(textLink, bookingLink);
 }
 
-// Record high-intent contact actions in Google Analytics when available.
 document.querySelectorAll('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"], a[href*="app.ringy.com/book/hinesightsolutions"]').forEach((link) => {
   link.addEventListener("click", () => {
     if (typeof window.gtag !== "function") return;
-
     let method = "booking";
     if (link.href.startsWith("tel:")) method = "phone";
     if (link.href.startsWith("sms:")) method = "text";
     if (link.href.startsWith("mailto:")) method = "email";
-
-    window.gtag("event", "generate_lead", {
-      lead_source: "website",
-      method,
-      page_location: window.location.href
-    });
+    window.gtag("event", "generate_lead", { lead_source: "website", method, page_location: window.location.href });
   });
 });
 
+const LICENSE_PACK_PARTS = [
+  "licenses/data/license-pack-gz-01.b64",
+  "licenses/data/license-pack-gz-02.b64",
+  "licenses/data/license-pack-gz-03.b64",
+  "licenses/data/license-pack-gz-04.b64",
+  "licenses/data/license-pack-gz-05.b64",
+  "licenses/data/license-pack-gz-06.b64",
+  "licenses/data/license-pack-gz-07.b64",
+  "licenses/data/license-pack-gz-08.b64",
+  "licenses/data/license-pack-final-09.b64",
+  "licenses/data/license-pack-gz-10.b64"
+];
+
+let licenseFilesPromise = null;
+
+const normalizeLicenseName = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+const bytesFromBase64 = (base64) => {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+};
+
+const mimeTypeForBytes = (bytes) => {
+  if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) return "application/pdf";
+  if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) return "image/png";
+  if (bytes[0] === 0xff && bytes[1] === 0xd8) return "image/jpeg";
+  return "application/octet-stream";
+};
+
+async function loadLicenseFiles() {
+  if (licenseFilesPromise) return licenseFilesPromise;
+
+  licenseFilesPromise = (async () => {
+    if (typeof DecompressionStream !== "function") {
+      throw new Error("This browser does not support the license document viewer.");
+    }
+
+    const responses = await Promise.all(LICENSE_PACK_PARTS.map((path) => fetch(path, { cache: "force-cache" })));
+    responses.forEach((response) => {
+      if (!response.ok) throw new Error(`License asset failed to load (${response.status}).`);
+    });
+
+    const chunks = await Promise.all(responses.map((response) => response.text()));
+    const compressedBytes = bytesFromBase64(chunks.join("").replace(/\s+/g, ""));
+    const decompressedStream = new Blob([compressedBytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+    const packed = new Uint8Array(await new Response(decompressedStream).arrayBuffer());
+    const view = new DataView(packed.buffer, packed.byteOffset, packed.byteLength);
+    const decoder = new TextDecoder();
+
+    if (decoder.decode(packed.slice(0, 4)) !== "HSL1") throw new Error("License pack header is invalid.");
+
+    const fileCount = view.getUint16(4, true);
+    let offset = 6;
+    const files = [];
+
+    for (let index = 0; index < fileCount; index += 1) {
+      if (offset + 6 > packed.length) throw new Error("License pack is incomplete.");
+      const nameLength = view.getUint16(offset, true);
+      const fileLength = view.getUint32(offset + 2, true);
+      offset += 6;
+      if (offset + nameLength + fileLength > packed.length) throw new Error("License document data is incomplete.");
+      const name = decoder.decode(packed.slice(offset, offset + nameLength));
+      offset += nameLength;
+      const fileBytes = packed.slice(offset, offset + fileLength);
+      offset += fileLength;
+      const blob = new Blob([fileBytes], { type: mimeTypeForBytes(fileBytes) });
+      files.push({ name, normalizedName: normalizeLicenseName(name), url: URL.createObjectURL(blob) });
+    }
+
+    if (files.length !== 20) throw new Error(`Expected 20 licenses but found ${files.length}.`);
+    return files;
+  })();
+
+  return licenseFilesPromise;
+}
 
 const licenseButtons = document.querySelectorAll(".state-license-button");
 const licenseModal = document.getElementById("license-modal");
@@ -70,6 +138,51 @@ if (licenseButtons.length && licenseModal) {
   const issued = document.getElementById("license-modal-issued");
   const expiration = document.getElementById("license-modal-expiration");
   const closeButton = licenseModal.querySelector(".license-modal-close");
+  const viewLink = document.getElementById("license-view-link");
+  const downloadLink = document.getElementById("license-download-link");
+  const status = document.getElementById("license-preview-status");
+
+  const setLinksDisabled = (message) => {
+    [viewLink, downloadLink].forEach((link) => {
+      if (!link) return;
+      link.href = "#";
+      link.setAttribute("aria-disabled", "true");
+      link.style.pointerEvents = "none";
+      link.style.opacity = "0.55";
+    });
+    if (status) status.textContent = message;
+  };
+
+  const setLinksReady = (file, state) => {
+    if (viewLink) {
+      viewLink.href = file.url;
+      viewLink.removeAttribute("aria-disabled");
+      viewLink.style.pointerEvents = "";
+      viewLink.style.opacity = "";
+    }
+    if (downloadLink) {
+      downloadLink.href = file.url;
+      downloadLink.download = file.name || `James-Hines-${state}-Insurance-License.pdf`;
+      downloadLink.removeAttribute("aria-disabled");
+      downloadLink.style.pointerEvents = "";
+      downloadLink.style.opacity = "";
+    }
+    if (status) status.textContent = "Full state-issued license document ready.";
+  };
+
+  const prepareLicenseDocument = async (state) => {
+    setLinksDisabled("Preparing license document…");
+    try {
+      const files = await loadLicenseFiles();
+      const stateKey = normalizeLicenseName(state);
+      const file = files.find((item) => item.normalizedName.includes(stateKey));
+      if (!file) throw new Error(`No license document was found for ${state}.`);
+      setLinksReady(file, state);
+    } catch (error) {
+      console.error(error);
+      setLinksDisabled("The full license document could not be loaded. Please refresh and try again.");
+    }
+  };
 
   const closeLicenseModal = () => {
     licenseModal.hidden = true;
@@ -88,20 +201,23 @@ if (licenseButtons.length && licenseModal) {
       licenseModal.hidden = false;
       document.body.classList.add("modal-open");
       closeButton.focus();
+      prepareLicenseDocument(button.dataset.state);
 
       if (typeof window.gtag === "function") {
-        window.gtag("event", "view_license_preview", {
-          state: button.dataset.state,
-          page_location: window.location.href
-        });
+        window.gtag("event", "view_license_preview", { state: button.dataset.state, page_location: window.location.href });
       }
     });
   });
 
-  licenseModal.querySelectorAll("[data-license-close]").forEach((element) => {
-    element.addEventListener("click", closeLicenseModal);
+  if (viewLink) viewLink.addEventListener("click", () => {
+    if (typeof window.gtag === "function") window.gtag("event", "view_full_license", { state: title.textContent, page_location: window.location.href });
   });
 
+  if (downloadLink) downloadLink.addEventListener("click", () => {
+    if (typeof window.gtag === "function") window.gtag("event", "download_license", { state: title.textContent, page_location: window.location.href });
+  });
+
+  licenseModal.querySelectorAll("[data-license-close]").forEach((element) => element.addEventListener("click", closeLicenseModal));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !licenseModal.hidden) closeLicenseModal();
   });
