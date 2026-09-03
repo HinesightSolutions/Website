@@ -92,7 +92,7 @@
       schedule.className = 'card daySchedule';
       schedule.innerHTML = `
         <div class="eyebrow">FIXED SCHEDULE</div>
-        <div class="dayScheduleTitle">Tomorrow's anchors</div>
+        <div class="dayScheduleTitle">Thursday's anchors</div>
         <div class="dayScheduleItems">
           <span class="dayScheduleItem"><strong>11:00</strong> Donna Burgess</span>
           <span class="dayScheduleItem"><strong>12:00</strong> Product Training</span>
@@ -122,7 +122,7 @@
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
     if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 2 EOD';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [33, 17, 0, 3, 6, 9, 3, 18];
+    const pipelineCounts = [33, 17, 3, 6, 9, 3, 18];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followStats = document.querySelectorAll('#followupsView .statNum');
