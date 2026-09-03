@@ -15,12 +15,22 @@ const frame=document.getElementById('commandCenterApp');
 frame.addEventListener('load',()=>{
   try{
     const doc=frame.contentDocument;
-    if(!doc||doc.querySelector('script[data-stage-controls]'))return;
-    const s=doc.createElement('script');
-    s.src='stage-controls.js';
-    s.dataset.stageControls='true';
-    doc.body.appendChild(s);
-  }catch(err){console.error('Unable to load pipeline stage controls',err)}
+    if(!doc)return;
+
+    if(!doc.querySelector('script[data-stage-controls]')){
+      const s=doc.createElement('script');
+      s.src='stage-controls.js';
+      s.dataset.stageControls='true';
+      doc.body.appendChild(s);
+    }
+
+    if(!doc.querySelector('script[data-daily-plan]')){
+      const d=doc.createElement('script');
+      d.src='daily-plan.js';
+      d.dataset.dailyPlan='true';
+      doc.body.appendChild(d);
+    }
+  }catch(err){console.error('Unable to load Command Center enhancements',err)}
 });
 </script>
 </body>
