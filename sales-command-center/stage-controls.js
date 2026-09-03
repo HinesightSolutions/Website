@@ -61,16 +61,12 @@
     bar.appendChild(btn);
   }
 
-  function submitStage(clientName, stage, button, pill) {
+  function postPipelineUpdate(fields, onSent) {
     let cfg = getConfig();
     if (!cfg) cfg = configure();
-    if (!cfg) return;
+    if (!cfg) return false;
 
-    button.disabled = true;
-    const oldText = button.textContent;
-    button.textContent = 'Updating…';
-
-    const iframeName = 'hsStageWrite_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const iframeName = 'hsPipelineWrite_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const iframe = document.createElement('iframe');
     iframe.name = iframeName;
     iframe.style.display = 'none';
@@ -82,14 +78,13 @@
     form.target = iframeName;
     form.style.display = 'none';
 
-    const fields = {
+    const payload = {
       event: 'sales_command_update_stage',
       token: cfg.token,
-      client_name: clientName,
-      stage
+      ...fields
     };
 
-    Object.entries(fields).forEach(([name, value]) => {
+    Object.entries(payload).forEach(([name, value]) => {
       const input = document.createElement('input');
       input.type = 'hidden';
       input.name = name;
@@ -101,6 +96,20 @@
     form.submit();
 
     setTimeout(() => {
+      try { onSent?.(); } catch (err) { console.error(err); }
+      form.remove();
+      setTimeout(() => iframe.remove(), 1500);
+    }, 650);
+
+    return true;
+  }
+
+  function submitStage(clientName, stage, button, pill) {
+    button.disabled = true;
+    const oldText = button.textContent;
+    button.textContent = 'Updating…';
+
+    const started = postPipelineUpdate({ client_name: clientName, stage }, () => {
       if (pill) {
         pill.textContent = stage;
         pill.className = 'stagePill ' + (typeof stageClass === 'function' ? stageClass(stage) : '');
@@ -108,18 +117,54 @@
       try {
         if (typeof PIPELINE !== 'undefined') {
           const row = PIPELINE.find(x => x.name === clientName);
-          if (row) row.stage = stage;
+          if (row) {
+            row.stage = stage;
+            row.work = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date());
+          }
         }
       } catch {}
       button.disabled = false;
       button.textContent = oldText;
-      form.remove();
-      setTimeout(() => iframe.remove(), 1500);
       if (typeof tip === 'function') tip(clientName + ' → ' + stage + ' sent to pipeline');
-    }, 650);
+    });
+
+    if (!started) {
+      button.disabled = false;
+      button.textContent = oldText;
+    }
   }
 
-  function enhanceCards() {
+  function submitWorked(clientName, stage, button, originalHandler) {
+    button.disabled = true;
+    const oldText = button.textContent;
+    button.textContent = 'Updating Work Date…';
+
+    const started = postPipelineUpdate({ client_name: clientName, stage }, () => {
+      const today = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date());
+      try {
+        if (typeof PIPELINE !== 'undefined') {
+          const row = PIPELINE.find(x => x.name === clientName);
+          if (row) row.work = today;
+        }
+        if (typeof FOLLOWUPS !== 'undefined') {
+          const follow = FOLLOWUPS.find(x => x.name === clientName && x.stage === stage);
+          if (follow) follow.worked = today;
+        }
+      } catch {}
+
+      button.disabled = false;
+      button.textContent = oldText;
+      if (typeof originalHandler === 'function') originalHandler.call(button);
+      if (typeof tip === 'function') tip(clientName + ' worked today → pipeline Work Date updated');
+    });
+
+    if (!started) {
+      button.disabled = false;
+      button.textContent = oldText;
+    }
+  }
+
+  function enhancePipelineCards() {
     ensureSetupButton();
     document.querySelectorAll('#pipelineList .clientCard').forEach(card => {
       if (card.querySelector('.stageWriteControls')) return;
@@ -150,6 +195,29 @@
       controls.append(select, save, hint);
       card.appendChild(controls);
     });
+  }
+
+  function enhanceFollowupCards() {
+    document.querySelectorAll('#followList .followCard').forEach(card => {
+      const button = card.querySelector('.workedBtn');
+      if (!button || button.dataset.sheetWorkedWired === 'true') return;
+      button.dataset.sheetWorkedWired = 'true';
+
+      if (button.textContent.trim() !== 'Mark Worked') return;
+
+      const name = card.querySelector('.followName')?.textContent?.trim();
+      const stage = card.querySelector('.st')?.textContent?.trim();
+      if (!name || !stage || !STAGES.includes(stage)) return;
+
+      const originalHandler = button.onclick;
+      button.onclick = () => submitWorked(name, stage, button, originalHandler);
+      button.title = 'Updates this client’s Work Date in the live pipeline, then marks the follow-up worked';
+    });
+  }
+
+  function enhanceCards() {
+    enhancePipelineCards();
+    enhanceFollowupCards();
   }
 
   const observer = new MutationObserver(() => enhanceCards());
