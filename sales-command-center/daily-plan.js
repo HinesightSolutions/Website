@@ -1,68 +1,37 @@
 (() => {
-  const PLAN_DATE = '2026-09-04';
-  const PLAN_LABEL = 'Friday, September 4';
+  const PLAN_DATE = '2026-09-05';
+  const PLAN_LABEL = 'Saturday, September 5';
 
   const plan = {
     planDate: PLAN_DATE,
     av: 0,
     avGoal: 10000,
-    targets: { warm: 0, pitch: 0, sale: 0 },
+    targets: { warm: 0, pitch: 1, sale: 1 },
     goals: { warm: 6, pitch: 3, sale: 1 },
     followupsDone: {},
     tasks: [
-      ['Alan Bryant', '2:00 PM Follow-Up', 'Use the scheduled follow-up to get a clear yes/no on next steps and move toward a real review.', 'hot'],
-      ['Veretta Jones', '3:00 PM Appointment', 'Protect the appointment. Be ready by 2:45 and push for a full pitch if the conversation is qualified.', 'hot'],
-      ['Donna Burgess', '5:30 PM Appointment', 'Protect the appointment. Revisit her needs, qualify cleanly, and move into the strongest option.', 'hot'],
-      ['Dustin Beard', 'Close Follow-Up', 'This is still one of the warmest money opportunities. Isolate the real objection and ask for the business.', 'hot'],
-      ['Mark Binkley', 'Day 1 Missed Appointment Recovery', 'He missed yesterday. Give him a clean recovery attempt and offer two concrete times.', 'high'],
-      ['Darci + Caroline + Darnelle', 'Fresh Positive Response Block', 'All three responded yesterday. Work these before aged leads and try to create real conversations or firm appointments.', 'high'],
-      ['Kristina + Casey + Bailey', 'Due-Today Warm Block', 'These Day 14 interested leads are due today. Give each a soft keep-open-or-close-out choice.', 'high'],
-      ['Missed Appointment Recovery', 'Overdue Recovery Block', 'Mary Fondren → Samantha Bowdy → Irene Dehaven → Ashley Myles → Jessica Lail. Recover what you can before cold prospecting.', 'high'],
-      ['Interested Pipeline', 'Focused Warm Conversation Block', 'Chiquita Tucker → Betty Adsit → Juri Grispino → Mike Olson. Target two real conversations.', 'warm'],
-      ['Fresh / Raw Leads', 'Prospecting Block', 'Only after the warm stack is worked. Build the next wave of weekend/next-week appointments.', 'normal']
-    ].map((x, i) => ({ id: 'sep4-' + i, name: x[0], action: x[1], note: x[2], priority: x[3], done: false }))
+      { id: 'sep5-0', name: 'Dorothy Fields', action: 'Sale Closed', note: 'Sold today. Keep the file clean and add Written AV when the submitted amount is available.', priority: 'hot', done: true },
+      { id: 'sep5-1', name: 'Michael Greenfield', action: 'Pitch Completed', note: 'Completed the 10:30 AM pitch and booked the next follow-up for Friday 9/11 at 10:30 AM.', priority: 'hot', done: true },
+      { id: 'sep5-2', name: 'Mark Binkley', action: 'Day 2 Missed Appointment Recovery', note: 'Missed-appointment cadence is due today. Offer today or tomorrow and get a firm new time.', priority: 'hot', done: false },
+      { id: 'sep5-3', name: 'Mary Fondren', action: 'Day 4 Missed Appointment Recovery', note: 'Another recovery touch is due today. Keep it low pressure and give two concrete timing choices.', priority: 'hot', done: false },
+      { id: 'sep5-4', name: 'Darci Bray', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
+      { id: 'sep5-5', name: 'Caroline Moeller', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
+      { id: 'sep5-6', name: 'Darnelle Guidry', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
+      { id: 'sep5-7', name: 'Juri Grispino', action: 'Day 14 Positive Response Follow-Up', note: 'Soft re-engagement due today. Give an easy keep-open-or-close-out choice.', priority: 'high', done: false },
+      { id: 'sep5-8', name: 'Dustin Beard', action: 'Day 4 Pitch Follow-Up', note: 'Reopen the comparison, isolate the concern, and ask what would move the decision forward.', priority: 'warm', done: false },
+      { id: 'sep5-9', name: 'Fresh / Raw Leads', action: 'Prospecting Block', note: 'Only after the due warm follow-ups above are handled. Build the next wave of appointments.', priority: 'normal', done: false }
+    ]
   };
 
   const freshFollowups = [
-    ['Beverly Cheaton','Appointment Missed','hot','Day 1 overdue','Aug 28'],
-    ['Michael Greenfield','Appointment Missed','hot','Day 2 overdue','Aug 28'],
-    ['Susan Dangerfield','Appointment Missed','hot','Day 14 overdue','Aug 28'],
-    ['Mary Fondren','Appointment Missed','hot','Day 1 overdue','Sep 1'],
-    ['Samantha Bowdy','Appointment Missed','hot','Day 14 overdue','Aug 28'],
-    ['Irene Dehaven','Appointment Missed','hot','Day 14 overdue','Aug 28'],
-    ['Ashley Myles','Appointment Missed','hot','Day 14 overdue','Aug 28'],
-    ['Jessica Lail','Appointment Missed','hot','Day 14 overdue','Aug 28'],
-    ['Mark Binkley','Appointment Missed','hot','Day 1 due today','Sep 3'],
-    ['Juri Grispino','Positive Response','high','Day 7 overdue','Aug 28'],
-    ['Mike Olson','Positive Response','high','Day 4 overdue','Aug 28'],
-    ['Lawrence Jackson','Positive Response','high','Day 2 overdue','Aug 28'],
-    ['Kaleigh Wilson','Positive Response','high','Day 4 overdue','Aug 28'],
-    ['Steve Ferguson','Positive Response','high','Day 4 overdue','Aug 28'],
-    ['Elizabeth Tetreault','Positive Response','high','Day 4 overdue','Aug 28'],
-    ['Fnu Bharat','Positive Response','high','Day 4 overdue','Aug 28'],
-    ['Alan Bryant','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Dylan Vetter','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Jodi Pearce','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Shakeya Dunbar','Positive Response','high','Day 7 overdue','Aug 28'],
-    ['Yolanda Castro','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Crystal Valentin','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Bryce Rone','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Shawna Looney','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Chiquita Tucker','Positive Response','high','Day 1 overdue','Aug 31'],
-    ['Betty Adsit','Positive Response','high','Day 1 overdue','Aug 31'],
-    ['Martin McMillan','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Kenya Hart','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Mohammed Khan','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Dave Lipscomb','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Amanda Cox','Positive Response','high','Day 14 overdue','Aug 28'],
-    ['Kristina Brunette','Positive Response','high','Day 14 due today','Aug 28'],
-    ['Casey Holsclaw','Positive Response','high','Day 14 due today','Aug 28'],
-    ['Bailey Ledford','Positive Response','high','Day 14 due today','Aug 28'],
-    ['Darci Bray','Positive Response','high','Day 1 due today','Sep 3'],
-    ['Caroline Moeller','Positive Response','high','Day 1 due today','Sep 3'],
-    ['Darnelle Guidry','Positive Response','high','Day 1 due today','Sep 3'],
-    ['Dustin Beard','Pitch Completed','warm','Day 1 overdue','Sep 1']
-  ].map((x, i) => ({ id: 'sep4f-' + i, name: x[0], stage: x[1], priority: x[2], due: x[3], worked: x[4] }));
+    ['Mark Binkley','Appointment Missed','hot','Day 2 due today','Sep 4'],
+    ['Mary Fondren','Appointment Missed','hot','Day 4 due today','Sep 4'],
+    ['Juri Grispino','Positive Response','high','Day 14 due today','Sep 4'],
+    ['Darci Bray','Positive Response','high','Day 2 due today','Sep 4'],
+    ['Caroline Moeller','Positive Response','high','Day 2 due today','Sep 4'],
+    ['Darnelle Guidry','Positive Response','high','Day 2 due today','Sep 4'],
+    ['Dustin Beard','Pitch Completed','warm','Day 4 due today','Sep 4']
+  ].map((x, i) => ({ id: 'sep5f-' + i, name: x[0], stage: x[1], priority: x[2], due: x[3], worked: x[4] }));
 
   function clonePlan() {
     return typeof structuredClone === 'function'
@@ -84,13 +53,31 @@
 
     if (!saved || saved.planDate !== PLAN_DATE) {
       if (saved) {
-        const archiveDate = saved.planDate || '2026-09-03';
+        const archiveDate = saved.planDate || '2026-09-04';
         try { localStorage.setItem(K + '-archive-' + archiveDate, JSON.stringify(saved)); } catch {}
       }
       s = clonePlan();
       localStorage.setItem(K, JSON.stringify(s));
     } else {
       s = saved;
+
+      // Keep today's known production synced without wiping user checklist progress.
+      s.planDate = PLAN_DATE;
+      s.targets = s.targets || { warm: 0, pitch: 0, sale: 0 };
+      s.targets.pitch = Math.max(Number(s.targets.pitch || 0), 1);
+      s.targets.sale = Math.max(Number(s.targets.sale || 0), 1);
+
+      const ensureTask = task => {
+        const existing = s.tasks && s.tasks.find(t => t.id === task.id || t.name === task.name);
+        if (existing) Object.assign(existing, task, { done: existing.done || task.done });
+        else {
+          if (!Array.isArray(s.tasks)) s.tasks = [];
+          s.tasks.unshift(task);
+        }
+      };
+      ensureTask(plan.tasks[1]);
+      ensureTask(plan.tasks[0]);
+      localStorage.setItem(K, JSON.stringify(s));
     }
 
     const todayKey = localDateKey();
@@ -102,15 +89,15 @@
     }
 
     const title = document.querySelector('#todayView h1');
-    if (title) title.textContent = 'Friday Close Plan';
+    if (title) title.textContent = 'Saturday Close Plan';
 
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'Protect today’s appointments, work yesterday’s fresh positives, then recover overdue money.';
+    if (heroCopy) heroCopy.textContent = 'You already have a sale on the board. Finish the due warm follow-ups before widening into raw prospecting.';
 
     const reset = document.getElementById('reset');
     if (reset) {
       reset.onclick = () => {
-        if (confirm("Reset Friday's checklist?")) {
+        if (confirm("Reset Saturday's checklist?")) {
           s = clonePlan();
           localStorage.setItem(K, JSON.stringify(s));
           renderToday();
@@ -135,14 +122,10 @@
       const schedule = document.createElement('section');
       schedule.className = 'card daySchedule';
       schedule.innerHTML = `
-        <div class="eyebrow">FIXED SCHEDULE</div>
-        <div class="dayScheduleTitle">Friday's anchors</div>
+        <div class="eyebrow">TODAY'S APPOINTMENTS</div>
+        <div class="dayScheduleTitle">Saturday anchors</div>
         <div class="dayScheduleItems">
-          <span class="dayScheduleItem"><strong>12:00</strong> Friday Kick-Off</span>
-          <span class="dayScheduleItem"><strong>2:00</strong> Alan Bryant</span>
-          <span class="dayScheduleItem"><strong>3:00</strong> Veretta Jones</span>
-          <span class="dayScheduleItem"><strong>4:00</strong> Advanced Track</span>
-          <span class="dayScheduleItem"><strong>5:30</strong> Donna Burgess</span>
+          <span class="dayScheduleItem"><strong>10:30</strong> Michael Greenfield — completed</span>
         </div>`;
       head.parentNode.insertBefore(schedule, head);
     }
@@ -153,39 +136,36 @@
       else PIPELINE.unshift({ name, ...patch });
     };
 
-    patchClient('Jennifer Barker', { work: 'Sep 3', appt: 'Sep 8 • 6:00 PM', stage: 'Pitch Completed', source: 'Montague New' });
-    patchClient('Jennifer Escalera', { work: 'Sep 2', stage: 'Not Interested', source: 'Exclusive' });
-    patchClient('Walter McNeill', { work: 'Sep 2', av: 10426.92, issued: 5198.88, stage: 'Sold', source: 'Branded' });
-    patchClient('Mark Binkley', { work: 'Sep 3', appt: 'Sep 3 • 3:00 PM', stage: 'Appointment Missed', source: 'Shared' });
-    patchClient('Jacob Norrell', { work: 'Sep 3', stage: 'Not Interested', source: 'Pipeline' });
-    patchClient('Douglass Keys', { work: 'Sep 3', stage: 'ACA Appointment', source: 'Shared' });
-    patchClient('Joe Fisher', { work: 'Sep 3', stage: 'ACA Appointment', source: 'Branded' });
-    patchClient('Darci Bray', { work: 'Sep 3', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
-    patchClient('Caroline Moeller', { work: 'Sep 3', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
-    patchClient('Darnelle Guidry', { work: 'Sep 3', appt: '—', stage: 'Positive Response', source: 'Carson - Shared' });
+    patchClient('Dorothy Fields', { work: 'Sep 5', appt: '—', stage: 'Sold', source: 'Carson 1' });
+    patchClient('Michael Greenfield', { work: 'Sep 5', appt: 'Sep 11 • 10:30 AM', stage: 'Pitch Completed', source: 'Carson 1' });
+    patchClient('Betty Adsit', { work: 'Sep 4', appt: 'Sep 9 • 9:00 AM', stage: 'Appointment Set', source: 'Branded' });
+    patchClient('Veretta Jones', { work: 'Sep 4', appt: 'Sep 4 • 3:00 PM', stage: 'Appointment Missed', source: 'Carson 1' });
+    patchClient('Mark Binkley', { work: 'Sep 4', stage: 'Appointment Missed', source: 'Shared' });
+    patchClient('Mary Fondren', { work: 'Sep 4', appt: 'Sep 1 • 4:00 PM', stage: 'Appointment Missed', source: 'Montague New' });
+    patchClient('Darci Bray', { work: 'Sep 4', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
+    patchClient('Caroline Moeller', { work: 'Sep 4', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
+    patchClient('Darnelle Guidry', { work: 'Sep 4', appt: '—', stage: 'Positive Response', source: 'Carson - Shared' });
     patchClient('Donna Burgess', { work: 'Sep 3', appt: 'Sep 4 • 5:30 PM', stage: 'Appointment Set', source: 'Branded' });
     patchClient('Junior Jules', { work: 'Sep 3', appt: 'Sep 8 • 10:00 AM', stage: 'Appointment Set', source: 'Carson - Branded' });
-    patchClient('Veretta Jones', { work: 'Sep 3', appt: 'Sep 4 • 3:00 PM', stage: 'Appointment Set', source: 'Carson 1' });
     patchClient('Cy Garland', { work: 'Sep 3', appt: 'Sep 10 • 5:00 PM', stage: 'Appointment Set', source: 'Carson 1' });
+    patchClient('Jennifer Barker', { work: 'Sep 3', appt: 'Sep 8 • 6:00 PM', stage: 'Pitch Completed', source: 'Montague New' });
+    patchClient('Walter McNeill', { work: 'Sep 2', av: 10426.92, issued: 5198.88, stage: 'Sold', source: 'Branded' });
 
     FOLLOWUPS.splice(0, FOLLOWUPS.length, ...freshFollowups);
 
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
-    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 3 EOD';
-    const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [33, 18, 4, 6, 10, 5, 19];
-    pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
+    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 5';
 
     const followHero = document.querySelector('#followupsView .snapshot');
-    if (followHero) followHero.textContent = 'Current follow-up snapshot • September 4 AM';
+    if (followHero) followHero.textContent = 'Live follow-up snapshot • September 5';
     const followStats = document.querySelectorAll('#followupsView .statNum');
-    const followCounts = [38, 9, 28, 1];
+    const followCounts = [7, 2, 4, 1];
     followStats.forEach((el, i) => { if (i < followCounts.length) el.textContent = followCounts[i]; });
 
     renderToday();
     renderPipeline();
     renderFollowups();
   } catch (err) {
-    console.error('Unable to load Friday sales plan', err);
+    console.error('Unable to load Saturday sales plan', err);
   }
 })();
