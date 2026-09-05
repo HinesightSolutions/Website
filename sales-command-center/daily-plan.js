@@ -4,13 +4,13 @@
 
   const plan = {
     planDate: PLAN_DATE,
-    av: 0,
+    av: 1703.28,
     avGoal: 10000,
     targets: { warm: 0, pitch: 1, sale: 1 },
     goals: { warm: 6, pitch: 3, sale: 1 },
     followupsDone: {},
     tasks: [
-      { id: 'sep5-0', name: 'Dorothy Fields', action: 'Sale Closed', note: 'Sold today. Keep the file clean and add Written AV when the submitted amount is available.', priority: 'hot', done: true },
+      { id: 'sep5-0', name: 'Dorothy Fields', action: 'Sale Closed', note: 'Sold today for $1,703.28 Written AV.', priority: 'hot', done: true },
       { id: 'sep5-1', name: 'Michael Greenfield', action: 'Pitch Completed', note: 'Completed the 10:30 AM pitch and booked the next follow-up for Friday 9/11 at 10:30 AM.', priority: 'hot', done: true },
       { id: 'sep5-2', name: 'Mark Binkley', action: 'Day 2 Missed Appointment Recovery', note: 'Missed-appointment cadence is due today. Offer today or tomorrow and get a firm new time.', priority: 'hot', done: false },
       { id: 'sep5-3', name: 'Mary Fondren', action: 'Day 4 Missed Appointment Recovery', note: 'Another recovery touch is due today. Keep it low pressure and give two concrete timing choices.', priority: 'hot', done: false },
@@ -63,6 +63,7 @@
 
       // Keep today's known production synced without wiping user checklist progress.
       s.planDate = PLAN_DATE;
+      s.av = Math.max(Number(s.av || 0), Number(plan.av || 0));
       s.targets = s.targets || { warm: 0, pitch: 0, sale: 0 };
       s.targets.pitch = Math.max(Number(s.targets.pitch || 0), 1);
       s.targets.sale = Math.max(Number(s.targets.sale || 0), 1);
@@ -136,7 +137,7 @@
       else PIPELINE.unshift({ name, ...patch });
     };
 
-    patchClient('Dorothy Fields', { work: 'Sep 5', appt: '—', stage: 'Sold', source: 'Carson 1' });
+    patchClient('Dorothy Fields', { work: 'Sep 5', appt: '—', stage: 'Sold', source: 'Carson 1', av: 1703.28 });
     patchClient('Michael Greenfield', { work: 'Sep 5', appt: 'Sep 11 • 10:30 AM', stage: 'Pitch Completed', source: 'Carson 1' });
     patchClient('Betty Adsit', { work: 'Sep 4', appt: 'Sep 9 • 9:00 AM', stage: 'Appointment Set', source: 'Branded' });
     patchClient('Veretta Jones', { work: 'Sep 4', appt: 'Sep 4 • 3:00 PM', stage: 'Appointment Missed', source: 'Carson 1' });
