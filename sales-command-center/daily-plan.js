@@ -12,21 +12,18 @@
     tasks: [
       { id: 'sep5-0', name: 'Dorothy Fields', action: 'Sale Closed', note: 'Sold today for $1,703.28 Written AV.', priority: 'hot', done: true },
       { id: 'sep5-1', name: 'Michael Greenfield', action: 'Pitch Completed', note: 'Completed the 10:30 AM pitch and booked the next follow-up for Friday 9/11 at 10:30 AM.', priority: 'hot', done: true },
-      { id: 'sep5-2', name: 'Mark Binkley', action: 'Day 2 Missed Appointment Recovery', note: 'Missed-appointment cadence is due today. Offer today or tomorrow and get a firm new time.', priority: 'hot', done: false },
+      { id: 'sep5-2', name: 'Mark Binkley', action: '6:00 PM Appointment', note: 'Recovered the missed appointment and booked him for 6:00 PM today. Protect the time and move into the full review.', priority: 'hot', done: false },
       { id: 'sep5-3', name: 'Mary Fondren', action: 'Day 4 Missed Appointment Recovery', note: 'Another recovery touch is due today. Keep it low pressure and give two concrete timing choices.', priority: 'hot', done: false },
       { id: 'sep5-4', name: 'Darci Bray', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
       { id: 'sep5-5', name: 'Caroline Moeller', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
       { id: 'sep5-6', name: 'Darnelle Guidry', action: 'Day 2 Positive Response Follow-Up', note: 'Still warm. Move toward a real conversation or a firm appointment.', priority: 'high', done: false },
-      { id: 'sep5-7', name: 'Juri Grispino', action: 'Day 14 Positive Response Follow-Up', note: 'Soft re-engagement due today. Give an easy keep-open-or-close-out choice.', priority: 'high', done: false },
       { id: 'sep5-8', name: 'Dustin Beard', action: 'Day 4 Pitch Follow-Up', note: 'Reopen the comparison, isolate the concern, and ask what would move the decision forward.', priority: 'warm', done: false },
       { id: 'sep5-9', name: 'Fresh / Raw Leads', action: 'Prospecting Block', note: 'Only after the due warm follow-ups above are handled. Build the next wave of appointments.', priority: 'normal', done: false }
     ]
   };
 
   const freshFollowups = [
-    ['Mark Binkley','Appointment Missed','hot','Day 2 due today','Sep 4'],
     ['Mary Fondren','Appointment Missed','hot','Day 4 due today','Sep 4'],
-    ['Juri Grispino','Positive Response','high','Day 14 due today','Sep 4'],
     ['Darci Bray','Positive Response','high','Day 2 due today','Sep 4'],
     ['Caroline Moeller','Positive Response','high','Day 2 due today','Sep 4'],
     ['Darnelle Guidry','Positive Response','high','Day 2 due today','Sep 4'],
@@ -76,6 +73,10 @@
           s.tasks.unshift(task);
         }
       };
+
+      if (!Array.isArray(s.tasks)) s.tasks = [];
+      s.tasks = s.tasks.filter(t => t.name !== 'Juri Grispino');
+      ensureTask(plan.tasks.find(t => t.name === 'Mark Binkley'));
       ensureTask(plan.tasks[1]);
       ensureTask(plan.tasks[0]);
       localStorage.setItem(K, JSON.stringify(s));
@@ -127,6 +128,7 @@
         <div class="dayScheduleTitle">Saturday anchors</div>
         <div class="dayScheduleItems">
           <span class="dayScheduleItem"><strong>10:30</strong> Michael Greenfield — completed</span>
+          <span class="dayScheduleItem"><strong>6:00</strong> Mark Binkley</span>
         </div>`;
       head.parentNode.insertBefore(schedule, head);
     }
@@ -141,7 +143,8 @@
     patchClient('Michael Greenfield', { work: 'Sep 5', appt: 'Sep 11 • 10:30 AM', stage: 'Pitch Completed', source: 'Carson 1' });
     patchClient('Betty Adsit', { work: 'Sep 4', appt: 'Sep 9 • 9:00 AM', stage: 'Appointment Set', source: 'Branded' });
     patchClient('Veretta Jones', { work: 'Sep 4', appt: 'Sep 4 • 3:00 PM', stage: 'Appointment Missed', source: 'Carson 1' });
-    patchClient('Mark Binkley', { work: 'Sep 4', stage: 'Appointment Missed', source: 'Shared' });
+    patchClient('Mark Binkley', { work: 'Sep 5', appt: 'Sep 5 • 6:00 PM', stage: 'Appointment Set', source: 'Shared' });
+    patchClient('Juri Grispino', { work: 'Sep 5', appt: '—', stage: 'Not Interested', source: 'Branded' });
     patchClient('Mary Fondren', { work: 'Sep 4', appt: 'Sep 1 • 4:00 PM', stage: 'Appointment Missed', source: 'Montague New' });
     patchClient('Darci Bray', { work: 'Sep 4', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
     patchClient('Caroline Moeller', { work: 'Sep 4', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
@@ -160,7 +163,7 @@
     const followHero = document.querySelector('#followupsView .snapshot');
     if (followHero) followHero.textContent = 'Live follow-up snapshot • September 5';
     const followStats = document.querySelectorAll('#followupsView .statNum');
-    const followCounts = [7, 2, 4, 1];
+    const followCounts = [5, 1, 3, 1];
     followStats.forEach((el, i) => { if (i < followCounts.length) el.textContent = followCounts[i]; });
 
     renderToday();
