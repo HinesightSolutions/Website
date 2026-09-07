@@ -44,6 +44,13 @@ frame.addEventListener('load',()=>{
       f.dataset.followupsEnhancements='true';
       doc.body.appendChild(f);
     }
+
+    if(!doc.querySelector('script[data-followups-status-overrides]')){
+      const o=doc.createElement('script');
+      o.src='followups-status-overrides.js';
+      o.dataset.followupsStatusOverrides='true';
+      doc.body.appendChild(o);
+    }
   }catch(err){console.error('Unable to load Command Center enhancements',err)}
 });
 </script>
