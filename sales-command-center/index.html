@@ -37,6 +37,13 @@ frame.addEventListener('load',()=>{
       q.dataset.quarterGoal='true';
       doc.body.appendChild(q);
     }
+
+    if(!doc.querySelector('script[data-followups-enhancements]')){
+      const f=doc.createElement('script');
+      f.src='followups-enhancements.js';
+      f.dataset.followupsEnhancements='true';
+      doc.body.appendChild(f);
+    }
   }catch(err){console.error('Unable to load Command Center enhancements',err)}
 });
 </script>
