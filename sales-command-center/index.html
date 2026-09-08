@@ -52,6 +52,13 @@ frame.addEventListener('load',()=>{
       doc.body.appendChild(o);
     }
 
+    if(!doc.querySelector('script[data-followups-choice-cta]')){
+      const c=doc.createElement('script');
+      c.src='followups-choice-cta.js';
+      c.dataset.followupsChoiceCta='true';
+      doc.body.appendChild(c);
+    }
+
     if(!doc.querySelector('script[data-touch-progress]')){
       const p=doc.createElement('script');
       p.dataset.touchProgress='true';
