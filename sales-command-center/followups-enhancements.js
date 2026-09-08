@@ -1,7 +1,7 @@
 (() => {
   const SNAPSHOT_DATE = 'September 8';
   const DUE_NAMES = new Set(['Mary Fondren', 'Mike Olson', 'Dustin Beard']);
-  const TWO_TOUCH_NAMES = new Set(['Mary Fondren', 'Dustin Beard']);
+  const TWO_TOUCH_NAMES = new Set(['Mary Fondren', 'Mike Olson', 'Dustin Beard', 'Joshua Morman']);
   const cadence = {
     'Mary Fondren': 'Day 7 due today',
     'Mike Olson': 'Day 14 due today',
@@ -85,26 +85,26 @@
     return String(name || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
   }
 
-  function rotatingMessage(f) {
+  function warmRotatingMessage(f) {
     const first = firstName(f.name);
     const pools = {
       'Appointment Missed': [
-        `Hey ${first}, I still have a note that we never got a chance to connect. Do you have a better day or time this week?`,
-        `Hey ${first}, we kept missing each other before. If you still want help, send me a day that is easier and I’ll work around you.`,
-        `Hey ${first}, I have a few openings this week if coverage is still on your list. Is morning or afternoon usually easier?`,
-        `Hey ${first}, if a call has been hard to line up, I can handle a lot of this by text too. Want to pick it back up that way?`
+        `Hey ${first}! Hope your week is going well. I know our timing never quite lined up before. If you still want my help, I’m happy to work around your schedule.`,
+        `Hey ${first}! I didn’t want to assume you were no longer interested just because we missed each other. If you still want to revisit this, I’m here whenever it’s convenient.`,
+        `Hey ${first}! I know things get busy and we never got a chance to connect. If coverage is still something you want help with, send me a time that usually works well for you.`,
+        `Hey ${first}! Just wanted to make sure I didn’t leave you hanging after we missed each other. I’m still happy to help whenever the timing is better on your end.`
       ],
       'Pitch Completed': [
-        `Hey ${first}, one thing I wanted to ask after our conversation — was the biggest hesitation cost, benefits, or timing?`,
-        `Hey ${first}, after having a little time to think about what we reviewed, what is the main thing keeping you from moving forward?`,
-        `Hey ${first}, if you tell me what you would want changed about the option we reviewed, I can tell you whether I can improve it.`,
-        `Hey ${first}, are you still considering what we discussed, or did you end up going another direction?`
+        `Hey ${first}! I was thinking about our conversation and wanted to make sure I didn’t leave you with anything unanswered. Is there anything you want me to go back over?`,
+        `Hey ${first}! I know we covered a lot when we talked. I just wanted to make sure you had everything you needed to feel comfortable with whichever direction you go.`,
+        `Hey ${first}! I didn’t want to keep chasing you, but I also didn’t want to leave you hanging after we went through everything. If anything is still unclear, send it my way.`,
+        `Hey ${first}! Hope you’re doing well. After having a little time to think about what we reviewed, is there anything you’d like me to explain differently or take another look at?`
       ],
       'Positive Response': [
-        `Hey ${first}, quick question — is getting coverage still something you want to handle this month, or has your situation changed?`,
-        `Hey ${first}, when we spoke before you were looking into health coverage. Is that still on your list, or did you get something handled?`,
-        `Hey ${first}, I still have your information from when you were looking at coverage. Is there anything specific keeping you from moving forward right now?`,
-        `Hey ${first}, I’m working through a few older files today. Do you still want help with yours, or are you all set now?`
+        `Hey ${first}! Hope you’re having a good week. I know we talked about getting your coverage handled and I didn’t want that to get lost in the shuffle. Is this still something you’d like my help with?`,
+        `Hey ${first}! I had your file in front of me and wanted to make sure you knew I hadn’t forgotten about you. If you still want help with the coverage, I’m happy to pick things back up whenever you’re ready.`,
+        `Hey ${first}! I know life gets busy and health insurance isn’t always the most exciting thing to deal with. If you still want help getting it handled, I’m here and can make it pretty easy on you.`,
+        `Hey ${first}! Just wanted to reach out while I had your information in front of me. If this is still on your list, I’m happy to help whenever it makes sense for you.`
       ]
     };
     const pool = pools[f.stage] || pools['Positive Response'];
@@ -113,33 +113,44 @@
 
   function firstTouchFor(f) {
     if (f.name === 'Mary Fondren') {
-      return 'Hey Mary, I still have a note that we never got a chance to connect. Do you have a better day or time this week?';
+      return 'Hey Mary! Hope you had a good weekend. I know we never quite got connected before. If you still want my help, I’m happy to work around your schedule — what time is usually easiest for you?';
     }
     if (f.name === 'Dustin Beard') {
-      return 'Hey Dustin, one thing I wanted to ask after our conversation — was the biggest hesitation cost, benefits, or timing?';
+      return 'Hey Dustin! I was thinking about our conversation and wanted to make sure I didn’t leave you with anything unanswered. Was there anything about the plan or price you wanted me to go back over?';
     }
     if (f.name === 'Mike Olson') {
-      return 'Hey Mike, quick question — is getting health coverage still something you want to handle this month, or has your situation changed?';
+      return 'Hey Mike! Hope you’re having a good week. I know we had talked about getting your coverage handled and I didn’t want it to get lost in the shuffle. Is this still something you’d like my help with?';
     }
-    return rotatingMessage(f);
+    if (f.name === 'Joshua Morman') {
+      return 'Hey Joshua! I know we’ve already gone through quite a bit together. I just wanted to make sure you had everything you needed and that I didn’t leave any questions hanging.';
+    }
+    return warmRotatingMessage(f);
   }
 
   function secondTouchFor(f) {
     if (f.name === 'Mary Fondren') {
-      return 'Hey Mary, if a call is tough to line up, I can handle a lot of this by text too. Want to pick it back up that way?';
+      return 'Hey Mary, one last thought for today — if a phone call is hard to line up, we can keep it simple over text too. Whatever is easiest for you.';
     }
     if (f.name === 'Dustin Beard') {
-      return 'If it’s easier, just reply COST, BENEFITS, or LATER and I’ll know what direction to take from here.';
+      return 'Hey Dustin, no rush on my end. I just wanted you to know I’m here if anything came up after we talked. Even if it’s a small question, feel free to shoot it over.';
+    }
+    if (f.name === 'Mike Olson') {
+      return 'Hey Mike, I won’t keep blowing your phone up today. If this is still on your list, just send me a 👍 and I’ll know to keep your file open for you.';
+    }
+    if (f.name === 'Joshua Morman') {
+      return 'Hey Joshua, I don’t want to keep pestering you — I just want to make sure you know I’m here if you decide you want to finish this up or need me to clarify anything.';
     }
     return '';
   }
 
   function actionFor(f) {
-    if (f.name === 'Mary Fondren') return 'Two-touch today: missed-appointment recovery now, then a different text-based option later only if she does not reply.';
-    if (f.name === 'Dustin Beard') return 'Two-touch today: isolate the hesitation first, then use the simple COST / BENEFITS / LATER reply later only if he stays silent.';
-    if (f.stage === 'Appointment Missed') return 'Recover the missed appointment without repeating yesterday’s wording. Aim for a specific day/time or offer text as another path.';
-    if (f.stage === 'Pitch Completed') return 'Move the conversation forward with a new angle — hesitation, desired change, or decision — rather than repeating the prior pitch.';
-    return 'Use a different angle from yesterday. Ask a concrete status or decision question instead of another generic “later this week or email” message.';
+    if (f.name === 'Mary Fondren') return 'Two-touch today: warm missed-appointment recovery first, then a very soft text option later only if she stays silent.';
+    if (f.name === 'Dustin Beard') return 'Two-touch today: warm post-pitch question first, then a low-pressure reassurance later only if he does not reply.';
+    if (f.name === 'Mike Olson') return 'Two-touch today because his Day 14 touch is due: one genuine re-entry now, then a tiny low-effort reply option later only if there is no response.';
+    if (f.name === 'Joshua Morman') return 'Two-touch today because he is already pitched and still open: remind him you are available first, then one gentle closing touch later if he stays silent.';
+    if (f.stage === 'Appointment Missed') return 'Warm recovery only. Acknowledge that timing did not line up and make it easy for them to reconnect without pressure.';
+    if (f.stage === 'Pitch Completed') return 'Keep it personal after the pitch. Make sure they feel supported rather than pushed toward a decision.';
+    return 'Warm re-entry. Sound like you remembered the person, not like you are working a follow-up list.';
   }
 
   function fallbackCopy(text, done) {
@@ -197,14 +208,14 @@
     const hero = document.querySelector('#followupsView .screenHero');
     if (hero) {
       const copy = hero.querySelector('.muted');
-      if (copy) copy.textContent = 'Recommended texts now rotate by day and stage so they do not sound like yesterday. Two-touch clients get a separate later-day message only if the first touch gets no reply.';
+      if (copy) copy.textContent = 'Messages are warmer and rotate by stage/day so they do not read like yesterday’s text. Two-touch recommendations are reserved for the strongest open opportunities, with the second text used only if the first gets no reply.';
       const snap = hero.querySelector('.snapshot');
       if (snap) snap.textContent = `Expanded follow-up snapshot • ${SNAPSHOT_DATE} • 41 open opportunities`;
       const oldLine = hero.querySelector('.followHeroLine');
       if (oldLine) oldLine.remove();
       const line = document.createElement('div');
       line.className = 'followHeroLine';
-      line.innerHTML = '<span class="followHeroTag">3 DUE TODAY</span><span class="followHeroTag twoTouchTag">2 TWO-TOUCH TODAY</span><span class="followHeroTag">41 OPEN FOLLOW-UPS</span><span class="followHeroTag">DAY-AWARE MESSAGES</span>';
+      line.innerHTML = '<span class="followHeroTag">3 DUE TODAY</span><span class="followHeroTag twoTouchTag">4 TWO-TOUCH TODAY</span><span class="followHeroTag">41 OPEN FOLLOW-UPS</span><span class="followHeroTag">WARMER MESSAGES</span>';
       hero.appendChild(line);
     }
 
@@ -225,8 +236,10 @@
   }
 
   function enhancedRenderFollowups() {
-    const q = document.getElementById('followSearch').value.trim().toLowerCase();
-    const stage = document.getElementById('followStage').value;
+    const searchEl = document.getElementById('followSearch');
+    const stageEl = document.getElementById('followStage');
+    const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
+    const stage = stageEl ? stageEl.value : 'all';
     const filtered = FOLLOWUPS.filter(f =>
       (activePriority === 'all' || f.priority === activePriority) &&
       (stage === 'all' || f.stage === stage) &&
@@ -236,9 +249,10 @@
     const remaining = FOLLOWUPS.filter(f => !s.followupsDone[f.id]).length;
     const dueRemaining = FOLLOWUPS.filter(f => f.dueNow && !s.followupsDone[f.id]).length;
     const badge = document.getElementById('followRemaining');
-    if (badge) badge.textContent = `${remaining} open • ${dueRemaining} due today • 2 two-touch`;
+    if (badge) badge.textContent = `${remaining} open • ${dueRemaining} due today • 4 two-touch`;
 
     const list = document.getElementById('followList');
+    if (!list) return;
     list.innerHTML = '';
     if (!filtered.length) {
       list.innerHTML = '<div class="empty">No follow-ups match that filter.</div>';
@@ -248,8 +262,8 @@
     filtered.sort((a, b) => {
       const ad = !!s.followupsDone[a.id], bd = !!s.followupsDone[b.id];
       if (ad !== bd) return ad ? 1 : -1;
-      if (a.twoTouch !== b.twoTouch) return a.twoTouch ? -1 : 1;
       if (a.dueNow !== b.dueNow) return a.dueNow ? -1 : 1;
+      if (a.twoTouch !== b.twoTouch) return a.twoTouch ? -1 : 1;
       const stageRank = { 'Appointment Missed': 0, 'Pitch Completed': 1, 'Positive Response': 2 };
       return (stageRank[a.stage] ?? 9) - (stageRank[b.stage] ?? 9);
     });
@@ -258,8 +272,8 @@
       const done = !!s.followupsDone[f.id];
       const a = document.createElement('article');
       a.className = 'followCard' + (done ? ' worked' : '') + (f.dueNow ? ' dueNowCard' : '');
-      const msg1 = firstTouchFor(f);
-      const msg2 = secondTouchFor(f);
+      const firstMsg = firstTouchFor(f);
+      const secondMsg = secondTouchFor(f);
       const dueClass = f.dueNow ? 'due dueBadgeHot' : 'due poolDue';
 
       a.innerHTML = `
@@ -271,36 +285,53 @@
           <div class="${dueClass}"></div>
         </div>
         <div class="note" style="margin-top:10px"></div>
-        <div class="followMessage firstTouch">
-          <div class="followMessageHead"><span class="followMessageLabel">${f.twoTouch ? 'Touch 1 • Send now' : 'Recommended message'}</span><button type="button" class="copyFollowBtn copyFirst">Copy Text</button></div>
+        <div class="followMessage">
+          <div class="followMessageHead"><span class="followMessageLabel">${f.twoTouch ? 'Touch 1 • Send first' : 'Suggested message'}</span><button type="button" class="copyFollowBtn firstCopy">Copy Text</button></div>
           <div class="followMessageText firstText"></div>
         </div>
-        ${f.twoTouch ? `<div class="followMessage secondTouch">
-          <div class="followMessageHead"><span class="followMessageLabel">Touch 2 • Later if no reply</span><button type="button" class="copyFollowBtn copySecond">Copy Text</button></div>
+        ${f.twoTouch && secondMsg ? `<div class="followMessage secondTouch">
+          <div class="followMessageHead"><span class="followMessageLabel">Touch 2 • Later if no reply</span><button type="button" class="copyFollowBtn secondCopy">Copy Text</button></div>
           <div class="followMessageText secondText"></div>
-          <div class="touchTiming">Use later today only if the first message gets no response. Do not send both back-to-back.</div>
+          <div class="touchTiming">Use later today only if the first message gets no response.</div>
         </div>` : ''}
         <div class="cardActions"><button class="cardBtn addToday">Add to Today</button><button class="cardBtn primaryish workedBtn"></button></div>`;
 
-      a.querySelector('.followName').textContent = f.name;
-      a.querySelector('.st').textContent = f.stage;
-      a.querySelector('.phoneMeta').textContent = f.phone;
-      a.querySelector('.' + dueClass.split(' ').join('.')).textContent = f.due;
-      a.querySelector('.note').textContent = actionFor(f);
-      a.querySelector('.firstText').textContent = msg1;
-      a.querySelector('.copyFirst').onclick = () => copyText(msg1, a.querySelector('.copyFirst'));
-      if (f.twoTouch && msg2) {
-        a.querySelector('.secondText').textContent = msg2;
-        a.querySelector('.copySecond').onclick = () => copyText(msg2, a.querySelector('.copySecond'));
+      const nameEl = a.querySelector('.followName');
+      const stageNode = a.querySelector('.st');
+      const phoneEl = a.querySelector('.phoneMeta');
+      const dueEl = a.querySelector('.due');
+      const noteEl = a.querySelector('.note');
+      const firstTextEl = a.querySelector('.firstText');
+      if (nameEl) nameEl.textContent = f.name;
+      if (stageNode) stageNode.textContent = f.stage;
+      if (phoneEl) phoneEl.textContent = f.phone;
+      if (dueEl) dueEl.textContent = f.due;
+      if (noteEl) noteEl.textContent = actionFor(f);
+      if (firstTextEl) firstTextEl.textContent = firstMsg;
+
+      const firstCopy = a.querySelector('.firstCopy');
+      if (firstCopy) firstCopy.onclick = () => copyText(firstMsg, firstCopy);
+
+      if (f.twoTouch && secondMsg) {
+        const secondTextEl = a.querySelector('.secondText');
+        const secondCopy = a.querySelector('.secondCopy');
+        if (secondTextEl) secondTextEl.textContent = secondMsg;
+        if (secondCopy) secondCopy.onclick = () => copyText(secondMsg, secondCopy);
       }
-      a.querySelector('.workedBtn').textContent = done ? 'Reopen' : 'Mark Worked';
-      a.querySelector('.workedBtn').onclick = () => {
-        s.followupsDone[f.id] = !done;
-        localStorage.setItem(K, JSON.stringify(s));
-        enhancedRenderFollowups();
-        if (typeof tip === 'function') tip(!done ? 'Marked worked' : 'Reopened');
-      };
-      a.querySelector('.addToday').onclick = () => addToToday(f.name, f.stage, actionFor(f), f.priority);
+
+      const workedBtn = a.querySelector('.workedBtn');
+      if (workedBtn) {
+        workedBtn.textContent = done ? 'Reopen' : 'Mark Worked';
+        workedBtn.onclick = () => {
+          s.followupsDone[f.id] = !done;
+          localStorage.setItem(K, JSON.stringify(s));
+          enhancedRenderFollowups();
+          if (typeof tip === 'function') tip(!done ? 'Marked worked' : 'Reopened');
+        };
+      }
+
+      const addBtn = a.querySelector('.addToday');
+      if (addBtn) addBtn.onclick = () => addToToday(f.name, f.stage, actionFor(f), f.priority);
       list.appendChild(a);
     });
   }
