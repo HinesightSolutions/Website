@@ -51,6 +51,35 @@ frame.addEventListener('load',()=>{
       o.dataset.followupsStatusOverrides='true';
       doc.body.appendChild(o);
     }
+
+    if(!doc.querySelector('script[data-touch-progress]')){
+      const p=doc.createElement('script');
+      p.dataset.touchProgress='true';
+      p.textContent=`(()=>{
+        const dateKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+        const key='hs-followup-touch-progress-'+dateKey();
+        const load=()=>{try{return JSON.parse(localStorage.getItem(key)||'{}')}catch{return {}}};
+        const save=v=>localStorage.setItem(key,JSON.stringify(v));
+        const time=v=>{if(!v)return '';const d=new Date(v);return d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})};
+        function css(){if(document.getElementById('touchProgressCss'))return;const s=document.createElement('style');s.id='touchProgressCss';s.textContent='.twoTouchProgress{display:flex;align-items:center;gap:8px;margin:10px 0 3px;padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:#fafbfc}.touchStep{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:var(--muted)}.touchDot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#fff;font-size:9px}.touchStep.done{color:#2f6a4f}.touchStep.done .touchDot{background:#e9f5ef;border-color:#9fc9b3;color:#2f6a4f}.touchStep.next{color:#96652d}.touchStep.next .touchDot{background:#fff4e5;border-color:#e7c896;color:#96652d}.touchLine{height:1px;flex:1;min-width:18px;background:var(--line)}.partOneBtn{border:1px solid #9ab3d2;background:#fff;color:var(--navy);border-radius:10px;padding:6px 9px;font-size:10px;font-weight:850;white-space:nowrap;margin-left:6px}.partOneBtn.done{border-color:#9fc9b3;background:#eef8f2;color:#2f6a4f}.followMessage.partOneFinished{opacity:.7}.followMessage.secondTouch.partTwoReady{background:#fff7eb;border-color:#dfbf8d;box-shadow:0 5px 18px #b47b2f12}.partOneNote{font-size:9px;font-weight:750;color:#2f6a4f;margin-top:6px}';document.head.appendChild(s)}
+        function decorate(card){
+          if(!card||card.dataset.partProgress==='1')return;
+          const badge=card.querySelector('.twoTouchBadge'),nameEl=card.querySelector('.followName'),first=card.querySelector('.followMessage:not(.secondTouch)'),second=card.querySelector('.followMessage.secondTouch');
+          if(!badge||!nameEl||!first||!second)return;
+          const name=nameEl.textContent.trim();if(!name)return;card.dataset.partProgress='1';
+          const tracker=document.createElement('div');tracker.className='twoTouchProgress';tracker.innerHTML='<div class="touchStep one"><span class="touchDot">1</span><span>First touch</span></div><div class="touchLine"></div><div class="touchStep two"><span class="touchDot">2</span><span>Later touch</span></div>';first.parentNode.insertBefore(tracker,first);
+          const head=first.querySelector('.followMessageHead'),btn=document.createElement('button');btn.type='button';btn.className='partOneBtn';head.appendChild(btn);
+          const note=document.createElement('div');note.className='partOneNote';first.appendChild(note);
+          const render=()=>{const st=load()[name]||{},done=!!st.one;tracker.querySelector('.one').classList.toggle('done',done);tracker.querySelector('.two').classList.toggle('next',done);first.classList.toggle('partOneFinished',done);second.classList.toggle('partTwoReady',done);btn.classList.toggle('done',done);btn.textContent=done?'Part 1 Complete ✓':'Mark Part 1 Complete';note.textContent=done?'Completed '+time(st.at)+' • keep this client open for Part 2 later.':'';const l=second.querySelector('.followMessageLabel');if(l)l.textContent=done?'Touch 2 • Ready later if no reply':'Touch 2 • Later if no reply'};
+          btn.onclick=()=>{const all=load(),st=all[name]||{};all[name]=st.one?{...st,one:false,at:null}:{...st,one:true,at:new Date().toISOString()};save(all);render();if(typeof tip==='function')tip(all[name].one?'Part 1 complete — client stays open for Part 2':'Part 1 reopened')};
+          render();
+        }
+        function all(){css();document.querySelectorAll('#followList .followCard').forEach(decorate)}
+        function start(){all();const list=document.getElementById('followList');if(!list){setTimeout(start,250);return}new MutationObserver(()=>requestAnimationFrame(all)).observe(list,{childList:true,subtree:true})}
+        start();
+      })();`;
+      doc.body.appendChild(p);
+    }
   }catch(err){console.error('Unable to load Command Center enhancements',err)}
 });
 </script>
