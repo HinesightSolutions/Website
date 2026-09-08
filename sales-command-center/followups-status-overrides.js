@@ -4,12 +4,16 @@
     'Caroline Moeller': { work: 'Sep 8' }
   };
   const EXCLUDED_NAMES = new Set(Object.keys(EXCLUSIONS));
+  const RESCHEDULES = {
+    'Jennifer Barker': { work: 'Sep 8', appt: 'Sep 10 • 6:00 PM', stage: 'Pitch Completed' }
+  };
+  const RESCHEDULED_NAMES = new Set(Object.keys(RESCHEDULES));
 
   function removeFromToday() {
     try {
       if (Array.isArray(s?.tasks)) {
         const before = s.tasks.length;
-        s.tasks = s.tasks.filter(t => !EXCLUDED_NAMES.has(t.name));
+        s.tasks = s.tasks.filter(t => !EXCLUDED_NAMES.has(t.name) && !RESCHEDULED_NAMES.has(t.name));
         if (s.tasks.length !== before) {
           localStorage.setItem(K, JSON.stringify(s));
           if (typeof renderToday === 'function') renderToday();
@@ -29,6 +33,14 @@
           row.appt = '—';
         }
       });
+      Object.entries(RESCHEDULES).forEach(([name, meta]) => {
+        const row = PIPELINE.find(x => x.name === name);
+        if (row) {
+          row.stage = meta.stage;
+          row.work = meta.work;
+          row.appt = meta.appt;
+        }
+      });
       if (typeof renderPipeline === 'function' && document.getElementById('pipelineView')?.classList.contains('active')) {
         renderPipeline();
       }
@@ -46,6 +58,16 @@
     } catch {
       return false;
     }
+  }
+
+  function refreshTodayChrome() {
+    try {
+      document.querySelectorAll('.dayScheduleItem').forEach(el => {
+        if (el.textContent.includes('Jennifer Barker')) el.remove();
+      });
+      const heroCopy = document.querySelector('#todayView .hero .muted');
+      if (heroCopy) heroCopy.textContent = 'Four client appointments remain on today’s calendar. Protect the show rate, work the due follow-ups, and keep building written and issued AV. Jennifer Barker moved to Thursday at 6:00 PM.';
+    } catch {}
   }
 
   function refreshFollowupChrome() {
@@ -88,6 +110,7 @@
   function apply() {
     removeFromToday();
     patchPipeline();
+    refreshTodayChrome();
     const changed = removeFromFollowups();
     if (changed && typeof renderFollowups === 'function') {
       try { renderFollowups(); } catch {}
