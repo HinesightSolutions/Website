@@ -1,87 +1,74 @@
 (() => {
-  const SNAPSHOT_DATE = 'September 7';
-  const DUE_NAMES = new Set(['Mary Fondren','Darci Bray','Caroline Moeller','Darnelle Guidry','Shakeya Dunbar','Chiquita Tucker','Dustin Beard']);
+  const SNAPSHOT_DATE = 'September 8';
+  const DUE_NAMES = new Set(['Mary Fondren', 'Mike Olson', 'Dustin Beard']);
   const cadence = {
-    'Mary Fondren': 'Day 4 overdue',
-    'Darci Bray': 'Day 2 overdue',
-    'Caroline Moeller': 'Day 2 overdue',
-    'Darnelle Guidry': 'Day 2 overdue',
-    'Shakeya Dunbar': 'Day 14 due today',
-    'Chiquita Tucker': 'Day 7 due today',
-    'Dustin Beard': 'Day 4 overdue'
+    'Mary Fondren': 'Day 7 due today',
+    'Mike Olson': 'Day 14 due today',
+    'Dustin Beard': 'Day 7 due today'
   };
 
   const rows = [
-    ['Drew Davis','3369783868','Appointment Missed','Aug 28'],
-    ['Beverly Cheaton','5743156214','Appointment Missed','Sep 4'],
-    ['Susan Dangerfield','9702141901','Appointment Missed','Sep 4'],
-    ['Samantha Bowdy','5124848548','Appointment Missed','Sep 4'],
-    ['Irene Dehaven','8172260170','Appointment Missed','Sep 4'],
-    ['Ashley Myles','7138165864','Appointment Missed','Sep 4'],
-    ['Jessica Lail','9808601272','Appointment Missed','Sep 4'],
-    ['Mary Fondren','2254215031','Appointment Missed','Sep 4'],
-    ['Veretta Jones','8648006189','Appointment Missed','Sep 4'],
+    ['Drew Davis','3369783868','Appointment Missed','Sep 7'],
+    ['Beverly Cheaton','5743156214','Appointment Missed','Sep 7'],
+    ['Susan Dangerfield','9702141901','Appointment Missed','Sep 7'],
+    ['Samantha Bowdy','5124848548','Appointment Missed','Sep 7'],
+    ['Irene Dehaven','8172260170','Appointment Missed','Sep 7'],
+    ['Ashley Myles','7138165864','Appointment Missed','Sep 7'],
+    ['Jessica Lail','9808601272','Appointment Missed','Sep 7'],
+    ['Mary Fondren','2254215031','Appointment Missed','Sep 7'],
+    ['Veretta Jones','8648006189','Appointment Missed','Sep 7'],
 
-    ['Alan Bryant','7705604750','Positive Response','Sep 4'],
-    ['David Coker','6086954295','Positive Response','Aug 28'],
-    ['Dylan Vetter','9139446469','Positive Response','Sep 4'],
-    ['Kristine Kilde','5416680778','Positive Response','Aug 28'],
-    ['Carroll Cason','2292215529','Positive Response','Aug 28'],
-    ['Raymond Riojas','9472296928','Positive Response','Aug 28'],
-    ['Tacara Maxwell','2168040164','Positive Response','Aug 28'],
-    ['Jodi Pearce','5743867893','Positive Response','Sep 4'],
-    ['Yolanda Castro','5672282048','Positive Response','Sep 4'],
-    ['Crystal Valentin','3524445141','Positive Response','Sep 4'],
-    ['Bryce Rone','7194242822','Positive Response','Sep 4'],
-    ['Shawna Looney','5015545555','Positive Response','Sep 4'],
-    ['Martin McMillan','9109921296','Positive Response','Sep 4'],
-    ['Kenya Hart','9195911654','Positive Response','Sep 4'],
-    ['Mohammed Khan','6308271788','Positive Response','Sep 4'],
-    ['Dave Lipscomb','4434638658','Positive Response','Sep 4'],
-    ['Amanda Cox','9366616658','Positive Response','Sep 4'],
-    ['Kristina Brunette','7024390065','Positive Response','Sep 4'],
-    ['Casey Holsclaw','8049337130','Positive Response','Sep 4'],
-    ['Bailey Ledford','8597971162','Positive Response','Sep 4'],
-    ['Shakeya Dunbar','7065513114','Positive Response','Sep 4'],
-    ['Mike Olson','6084250029','Positive Response','Sep 4'],
-    ['Kaleigh Wilson','9018311603','Positive Response','Sep 4'],
-    ['Steve Ferguson','2707918917','Positive Response','Sep 4'],
-    ['Elizabeth Tetreault','7726433324','Positive Response','Sep 4'],
-    ['Fnu Bharat','6157054430','Positive Response','Sep 4'],
-    ['Lawrence Jackson','2166129314','Positive Response','Sep 4'],
-    ['Chiquita Tucker','2105745727','Positive Response','Sep 4'],
-    ['Darci Bray','4057608416','Positive Response','Sep 4'],
-    ['Caroline Moeller','5022872508','Positive Response','Sep 4'],
-    ['Darnelle Guidry','3372243460','Positive Response','Sep 4'],
+    ['Alan Bryant','7705604750','Positive Response','Sep 7'],
+    ['David Coker','6086954295','Positive Response','Sep 7'],
+    ['Dylan Vetter','9139446469','Positive Response','Sep 7'],
+    ['Kristine Kilde','5416680778','Positive Response','Sep 7'],
+    ['Carroll Cason','2292215529','Positive Response','Sep 7'],
+    ['Raymond Riojas','9472296928','Positive Response','Sep 7'],
+    ['Tacara Maxwell','2168040164','Positive Response','Sep 7'],
+    ['Jodi Pearce','5743867893','Positive Response','Sep 7'],
+    ['Yolanda Castro','5672282048','Positive Response','Sep 7'],
+    ['Crystal Valentin','3524445141','Positive Response','Sep 7'],
+    ['Bryce Rone','7194242822','Positive Response','Sep 7'],
+    ['Shawna Looney','5015545555','Positive Response','Sep 7'],
+    ['Martin McMillan','9109921296','Positive Response','Sep 7'],
+    ['Kenya Hart','9195911654','Positive Response','Sep 7'],
+    ['Mohammed Khan','6308271788','Positive Response','Sep 7'],
+    ['Dave Lipscomb','4434638658','Positive Response','Sep 7'],
+    ['Amanda Cox','9366616658','Positive Response','Sep 7'],
+    ['Kristina Brunette','7024390065','Positive Response','Sep 7'],
+    ['Casey Holsclaw','8049337130','Positive Response','Sep 7'],
+    ['Bailey Ledford','8597971162','Positive Response','Sep 7'],
+    ['Mike Olson','6084250029','Positive Response','Sep 7'],
+    ['Kaleigh Wilson','9018311603','Positive Response','Sep 7'],
+    ['Steve Ferguson','2707918917','Positive Response','Sep 7'],
+    ['Elizabeth Tetreault','7726433324','Positive Response','Sep 7'],
+    ['Fnu Bharat','6157054430','Positive Response','Sep 7'],
+    ['Lawrence Jackson','2166129314','Positive Response','Sep 7'],
+    ['Chiquita Tucker','2105745727','Positive Response','Sep 7'],
+    ['Darci Bray','4057608416','Positive Response','Sep 7'],
+    ['Caroline Moeller','5022872508','Positive Response','Sep 7'],
+    ['Darnelle Guidry','3372243460','Positive Response','Sep 7'],
 
-    ['Joshua Morman','8658950199','Pitch Completed','Aug 28'],
-    ['Dustin Beard','3254235658','Pitch Completed','Sep 4']
+    ['Joshua Morman','8658950199','Pitch Completed','Sep 7'],
+    ['Dustin Beard','3254235658','Pitch Completed','Sep 7']
   ];
 
-  function priorityFor(name, stage) {
+  function priorityFor(stage) {
     if (stage === 'Appointment Missed') return 'hot';
-    if (stage === 'Pitch Completed') return DUE_NAMES.has(name) ? 'warm' : 'warm';
+    if (stage === 'Pitch Completed') return 'warm';
     return 'high';
   }
 
   const expanded = rows.map((r, i) => ({
-    id: 'sep7-open-' + i,
+    id: 'sep8-open-' + i,
     name: r[0],
     phone: r[1],
     stage: r[2],
     worked: r[3],
-    priority: priorityFor(r[0], r[2]),
+    priority: priorityFor(r[2]),
     due: cadence[r[0]] || (r[2] === 'Appointment Missed' ? 'Missed recovery pool' : r[2] === 'Pitch Completed' ? 'Decision pool' : 'Interested pool'),
     dueNow: DUE_NAMES.has(r[0])
   }));
-
-  function todayKey() {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-  }
 
   function firstName(name) {
     return (name || '').trim().split(/\s+/)[0] || name;
@@ -89,48 +76,19 @@
 
   function messageFor(f) {
     const first = firstName(f.name);
-    const holiday = todayKey() === '2026-09-07';
-    let body = '';
-
-    if (holiday) {
-      if (f.stage === 'Appointment Missed') {
-        body = `Hey ${first}, Happy Labor Day! I know today probably isn’t the day you want to spend on this, so no pressure at all. Since we missed each other before, I can reach back out later this week or send you a quick email in the meantime. Which would be easier?`;
-      } else if (f.stage === 'Pitch Completed') {
-        body = `Hey ${first}, Happy Labor Day! I know we already went through quite a bit, so I don’t want to bother you on the holiday. I can reach back out later this week, or if it’s easier I can send you a quick email and you can look it over whenever you have time. Which would you prefer?`;
-      } else {
-        body = `Hey ${first}, Happy Labor Day! I didn’t want to bother you on the holiday, but I also didn’t want to lose track of you. I can reach back out later this week or send you a quick email to look over whenever you have time. Which would be easier?`;
-      }
-    } else {
-      if (f.stage === 'Appointment Missed') {
-        body = `Hey ${first}! I know we missed each other before. I can reach back out later this week, or if it’s easier I can send you a quick email in the meantime. Which would be better?`;
-      } else if (f.stage === 'Pitch Completed') {
-        body = `Hey ${first}! I know we already went through quite a bit. If you still have questions, I can reach back out later this week or send you a quick email to look over whenever you have time. Which would you prefer?`;
-      } else {
-        body = `Hey ${first}! I wanted to reach back out while I still had your information handy. I can give you a call later this week or send you a quick email to look over whenever you have time. Which would be easier?`;
-      }
+    if (f.stage === 'Appointment Missed') {
+      return `Hey ${first}! I know we missed each other before. Would later this week be better for a quick call, or would you rather I send an email?`;
     }
-    return body + ' -James Hines, #state Health Advisor';
+    if (f.stage === 'Pitch Completed') {
+      return `Hey ${first}! I still have the options we reviewed. Would you rather reconnect later this week or have me send the details by email?`;
+    }
+    return `Hey ${first}! I know things get busy. Would a quick call later this week or an email be easier for you?`;
   }
 
   function actionFor(f) {
-    if (f.stage === 'Appointment Missed') return 'Low-pressure appointment recovery — make it easy to reconnect later this week.';
-    if (f.stage === 'Pitch Completed') return 'Reopen the decision without re-pitching everything; make the next step easy.';
-    return 'Warm re-entry — aim for a reply, a later-this-week call, or permission to send an email.';
-  }
-
-  function copyText(text, button) {
-    const finish = () => {
-      const old = button.textContent;
-      button.textContent = 'Copied ✓';
-      if (typeof tip === 'function') tip('Message copied');
-      setTimeout(() => button.textContent = old, 1200);
-    };
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(finish).catch(() => fallbackCopy(text, finish));
-    } else {
-      fallbackCopy(text, finish);
-    }
+    if (f.stage === 'Appointment Missed') return 'Recover the missed appointment without adding pressure. Aim for a firm later-this-week time or an email permission.';
+    if (f.stage === 'Pitch Completed') return 'Reopen the decision without repeating the pitch. Find the unresolved concern and make the next step easy.';
+    return 'Warm re-entry. Aim for a reply, a later-this-week call, or permission to send an email.';
   }
 
   function fallbackCopy(text, done) {
@@ -141,8 +99,19 @@
     document.body.appendChild(ta);
     ta.focus();
     ta.select();
-    try { document.execCommand('copy'); done(); }
-    finally { ta.remove(); }
+    try { document.execCommand('copy'); done(); } finally { ta.remove(); }
+  }
+
+  function copyText(text, button) {
+    const finish = () => {
+      const old = button.textContent;
+      button.textContent = 'Copied ✓';
+      if (typeof tip === 'function') tip('Message copied');
+      setTimeout(() => button.textContent = old, 1200);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(finish).catch(() => fallbackCopy(text, finish));
+    } else fallbackCopy(text, finish);
   }
 
   function installCss() {
@@ -171,22 +140,22 @@
     const hero = document.querySelector('#followupsView .screenHero');
     if (hero) {
       const copy = hero.querySelector('.muted');
-      if (copy) copy.textContent = 'The 7 cadence-due clients stay pinned first, but the page now includes the full open warm pool so you always have another person to work.';
+      if (copy) copy.textContent = 'The 3 cadence-due clients stay pinned first, followed by the full open warm pool so you always have another person to work.';
       const snap = hero.querySelector('.snapshot');
-      if (snap) snap.textContent = `Expanded follow-up snapshot • ${SNAPSHOT_DATE} • 42 open opportunities`;
-      if (!hero.querySelector('.followHeroLine')) {
-        const line = document.createElement('div');
-        line.className = 'followHeroLine';
-        line.innerHTML = '<span class="followHeroTag">7 DUE / OVERDUE</span><span class="followHeroTag">42 OPEN FOLLOW-UPS</span><span class="followHeroTag">COPY-READY MESSAGES</span>';
-        hero.appendChild(line);
-      }
+      if (snap) snap.textContent = `Expanded follow-up snapshot • ${SNAPSHOT_DATE} • 41 open opportunities`;
+      const oldLine = hero.querySelector('.followHeroLine');
+      if (oldLine) oldLine.remove();
+      const line = document.createElement('div');
+      line.className = 'followHeroLine';
+      line.innerHTML = '<span class="followHeroTag">3 DUE TODAY</span><span class="followHeroTag">41 OPEN FOLLOW-UPS</span><span class="followHeroTag">COPY-READY MESSAGES</span>';
+      hero.appendChild(line);
     }
 
     const stats = document.querySelectorAll('#followupsView .statCard');
     const values = [
-      ['7','Due / Overdue'],
+      ['3','Due Today'],
       ['9','Missed Appts'],
-      ['31','Interested'],
+      ['30','Interested'],
       ['2','Pitch Decisions']
     ];
     stats.forEach((card, i) => {
@@ -201,7 +170,7 @@
   function enhancedRenderFollowups() {
     const q = document.getElementById('followSearch').value.trim().toLowerCase();
     const stage = document.getElementById('followStage').value;
-    const rows = FOLLOWUPS.filter(f =>
+    const filtered = FOLLOWUPS.filter(f =>
       (activePriority === 'all' || f.priority === activePriority) &&
       (stage === 'all' || f.stage === stage) &&
       (!q || f.name.toLowerCase().includes(q) || f.stage.toLowerCase().includes(q) || (f.phone || '').includes(q))
@@ -210,16 +179,16 @@
     const remaining = FOLLOWUPS.filter(f => !s.followupsDone[f.id]).length;
     const dueRemaining = FOLLOWUPS.filter(f => f.dueNow && !s.followupsDone[f.id]).length;
     const badge = document.getElementById('followRemaining');
-    if (badge) badge.textContent = `${remaining} open • ${dueRemaining} due now`;
+    if (badge) badge.textContent = `${remaining} open • ${dueRemaining} due today`;
 
     const list = document.getElementById('followList');
     list.innerHTML = '';
-    if (!rows.length) {
+    if (!filtered.length) {
       list.innerHTML = '<div class="empty">No follow-ups match that filter.</div>';
       return;
     }
 
-    rows.sort((a, b) => {
+    filtered.sort((a, b) => {
       const ad = !!s.followupsDone[a.id], bd = !!s.followupsDone[b.id];
       if (ad !== bd) return ad ? 1 : -1;
       if (a.dueNow !== b.dueNow) return a.dueNow ? -1 : 1;
@@ -227,7 +196,7 @@
       return (stageRank[a.stage] ?? 9) - (stageRank[b.stage] ?? 9);
     });
 
-    rows.forEach(f => {
+    filtered.forEach(f => {
       const done = !!s.followupsDone[f.id];
       const a = document.createElement('article');
       a.className = 'followCard' + (done ? ' worked' : '') + (f.dueNow ? ' dueNowCard' : '');
@@ -268,19 +237,23 @@
     });
   }
 
-  function install() {
+  try {
     installCss();
-    try {
-      FOLLOWUPS.splice(0, FOLLOWUPS.length, ...expanded);
-      window.renderFollowups = enhancedRenderFollowups;
-    } catch (err) {
-      console.error('Unable to expand follow-up queue', err);
-      return;
-    }
+    FOLLOWUPS.splice(0, FOLLOWUPS.length, ...expanded);
     updateHeroAndStats();
+    window.renderFollowups = enhancedRenderFollowups;
     enhancedRenderFollowups();
-  }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install);
-  else install();
+    const followSearch = document.getElementById('followSearch');
+    const followStage = document.getElementById('followStage');
+    if (followSearch) followSearch.oninput = enhancedRenderFollowups;
+    if (followStage) followStage.onchange = enhancedRenderFollowups;
+    document.querySelectorAll('#priorityChips .chip').forEach(b => b.onclick = () => {
+      activePriority = b.dataset.priority;
+      document.querySelectorAll('#priorityChips .chip').forEach(x => x.classList.toggle('active', x === b));
+      enhancedRenderFollowups();
+    });
+  } catch (err) {
+    console.error('Unable to refresh follow-up queue', err);
+  }
 })();
