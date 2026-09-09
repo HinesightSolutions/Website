@@ -6,11 +6,11 @@
     planDate: PLAN_DATE,
     av: 0,
     avGoal: 10000,
-    targets: { warm: 0, pitch: 0, sale: 0 },
+    targets: { warm: 1, pitch: 0, sale: 0 },
     goals: { warm: 8, pitch: 4, sale: 2 },
     followupsDone: {},
     tasks: [
-      { id: 'sep9-0', name: 'Betty Adsit', action: '9:00 AM Appointment — Confirm Outcome', note: 'If it held, move her toward a clear recommendation and application. If it missed, recover it immediately while the appointment is still fresh.', priority: 'hot', done: false },
+      { id: 'sep9-0', name: 'Betty Adsit', action: 'Morning Appointment Held — Follow-Up Set for Sep 23', note: 'Good outcome: the appointment held and a firm follow-up is on the calendar for September 23 at 9:34 AM.', priority: 'hot', done: true },
       { id: 'sep9-1', name: 'Gerald Drewa', action: 'Pitch Follow-Up — Due Today', note: 'This is already pitched business. Find the one remaining concern instead of presenting everything again, then ask for a clear decision or next step.', priority: 'hot', done: false },
       { id: 'sep9-2', name: 'Kaleigh Wilson', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Use a short, low-pressure re-entry and make it easy to choose a quick call or an email.', priority: 'high', done: false },
       { id: 'sep9-3', name: 'Steve Ferguson', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Keep it brief and specific. Reopen the conversation and try to turn the interest into a firm time.', priority: 'high', done: false },
@@ -57,10 +57,11 @@
       s.avGoal = Number(s.avGoal || plan.avGoal);
       s.goals = { ...plan.goals };
       s.targets = s.targets || { warm: 0, pitch: 0, sale: 0 };
+      s.targets.warm = Math.max(Number(s.targets.warm || 0), 1);
       const existingByName = new Map((s.tasks || []).map(t => [t.name, t]));
       s.tasks = plan.tasks.map(task => {
         const prior = existingByName.get(task.name);
-        return prior ? { ...task, done: !!prior.done } : { ...task };
+        return prior ? { ...task, done: !!prior.done || !!task.done } : { ...task };
       });
       localStorage.setItem(K, JSON.stringify(s));
     }
@@ -72,7 +73,7 @@
     if (title) title.textContent = 'Wednesday Close Plan';
 
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'One appointment is on the calendar today and five cadence-due follow-ups are ready. Close the warm business first, then lean into fresh lead volume and build the next wave.';
+    if (heroCopy) heroCopy.textContent = 'The morning appointment is handled and the next follow-up is protected. Close the warm business first, then lean into fresh lead volume and build the next wave.';
 
     const reset = document.getElementById('reset');
     if (reset) reset.onclick = () => {
@@ -106,7 +107,8 @@
         <div class="eyebrow">TODAY'S ANCHORS</div>
         <div class="dayScheduleTitle">Wednesday schedule</div>
         <div class="dayScheduleItems">
-          <span class="dayScheduleItem"><strong>9:00</strong> Betty Adsit</span>
+          <span class="dayScheduleItem"><strong>✓</strong> Betty Adsit — Held</span>
+          <span class="dayScheduleItem"><strong>Sep 23</strong> Betty Follow-Up — 9:34 AM</span>
           <span class="dayScheduleItem"><strong>Due</strong> Gerald Drewa — Pitch Follow-Up</span>
           <span class="dayScheduleItem"><strong>Next</strong> Thu 5:00 PM — Cy Garland</span>
         </div>`;
@@ -119,7 +121,7 @@
       else PIPELINE.unshift({ name, ...patch });
     };
 
-    patchClient('Betty Adsit', { work: 'Sep 4', appt: 'Sep 9 • 9:00 AM', stage: 'Appointment Set', source: 'Branded' });
+    patchClient('Betty Adsit', { work: 'Sep 9', appt: 'Sep 23 • 9:34 AM', stage: 'Appointment Answered', source: 'Branded' });
     patchClient('Cy Garland', { work: 'Sep 3', appt: 'Sep 10 • 5:00 PM', stage: 'Appointment Set', source: 'Carson 1' });
     patchClient('Gerald Drewa', { work: 'Sep 1', appt: 'Sep 8 • 11:00 AM', stage: 'Pitch Completed', source: 'Branded' });
     patchClient('Kaleigh Wilson', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Pipeline' });
@@ -137,13 +139,13 @@
     FOLLOWUPS.splice(0, FOLLOWUPS.length, ...freshFollowups);
 
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
-    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 9 AM';
+    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 9';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [29, 19, 5, 7, 9, 5, 22];
+    const pipelineCounts = [29, 18, 5, 7, 9, 5, 22];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followHero = document.querySelector('#followupsView .snapshot');
-    if (followHero) followHero.textContent = 'Live cadence-due snapshot • September 9 AM';
+    if (followHero) followHero.textContent = 'Live cadence-due snapshot • September 9';
     const followStats = document.querySelectorAll('#followupsView .statNum');
     const followCounts = [5, 0, 4, 1];
     followStats.forEach((el, i) => { if (i < followCounts.length) el.textContent = followCounts[i]; });
