@@ -4,12 +4,13 @@
 
   const plan = {
     planDate: PLAN_DATE,
-    av: 0,
+    av: 6638.52,
     avGoal: 10000,
-    targets: { warm: 1, pitch: 0, sale: 0 },
+    targets: { warm: 1, pitch: 2, sale: 1 },
     goals: { warm: 8, pitch: 4, sale: 2 },
     followupsDone: {},
     tasks: [
+      { id: 'sep9-sale', name: 'Christine Milham', action: 'SOLD — $6,638.52 Written AV', note: 'Fresh lead sold today. One sale is now on the board and today’s Written AV is $6,638.52.', priority: 'hot', done: true },
       { id: 'sep9-0', name: 'Betty Adsit', action: 'Morning Appointment Held — Follow-Up Set for Sep 23', note: 'Good outcome: the appointment held and a firm follow-up is on the calendar for September 23 at 9:34 AM.', priority: 'hot', done: true },
       { id: 'sep9-1', name: 'Fresh Lead Flow', action: 'PRIMARY FOCUS — Build New At-Bats', note: 'The warm pipeline has been worked hard. Put roughly 60–70% of prospecting time into genuinely fresh leads and new conversations today.', priority: 'hot', done: false },
       { id: 'sep9-2', name: 'Richard Goodine', action: '5:30 PM Appointment — Protect & Close', note: 'Fresh appointment set today. Confirm it, protect the show rate, and treat this as the best immediate close opportunity on the board.', priority: 'hot', done: false },
@@ -55,9 +56,12 @@
       s = saved;
       s.planDate = PLAN_DATE;
       s.avGoal = Number(s.avGoal || plan.avGoal);
+      s.av = Math.max(Number(s.av || 0), plan.av);
       s.goals = { ...plan.goals };
       s.targets = s.targets || { warm: 0, pitch: 0, sale: 0 };
-      s.targets.warm = Math.max(Number(s.targets.warm || 0), 1);
+      s.targets.warm = Math.max(Number(s.targets.warm || 0), plan.targets.warm);
+      s.targets.pitch = Math.max(Number(s.targets.pitch || 0), plan.targets.pitch);
+      s.targets.sale = Math.max(Number(s.targets.sale || 0), plan.targets.sale);
       const existingByName = new Map((s.tasks || []).map(t => [t.name, t]));
       s.tasks = plan.tasks.map(task => {
         const prior = existingByName.get(task.name);
@@ -73,7 +77,7 @@
     if (title) title.textContent = 'Wednesday Sales Plan';
 
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'The warm pipeline has been worked hard. Today’s constraint is fresh at-bats: make new lead flow the main prospecting priority, protect Richard at 5:30, and recycle older opportunities in short blocks.';
+    if (heroCopy) heroCopy.textContent = 'Sale on the board: Christine Milham closed for $6,638.52 Written AV. Keep fresh lead flow as the main prospecting priority and build from here.';
 
     const reset = document.getElementById('reset');
     if (reset) reset.onclick = () => {
@@ -131,6 +135,7 @@
         <div class="eyebrow">TODAY'S ANCHORS</div>
         <div class="dayScheduleTitle">Wednesday schedule</div>
         <div class="dayScheduleItems">
+          <span class="dayScheduleItem"><strong>SALE</strong> Christine Milham — $6,638.52</span>
           <span class="dayScheduleItem"><strong>✓</strong> Betty Adsit — Held</span>
           <span class="dayScheduleItem"><strong>5:30</strong> Richard Goodine — Appointment</span>
           <span class="dayScheduleItem"><strong>Fresh</strong> Natalie Sparks — Positive Response</span>
@@ -145,6 +150,7 @@
       else PIPELINE.unshift({ name, ...patch });
     };
 
+    patchClient('Christine Milham', { work: 'Sep 9', appt: '—', stage: 'Sold', source: 'Montague New' });
     patchClient('Betty Adsit', { work: 'Sep 9', appt: 'Sep 23 • 9:34 AM', stage: 'Appointment Answered', source: 'Branded' });
     patchClient('Richard Goodine', { work: 'Sep 9', appt: 'Sep 9 • 5:30 PM', stage: 'Appointment Set', source: 'CSV Upload' });
     patchClient('Natalie Sparks', { work: 'Sep 9', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
@@ -167,7 +173,7 @@
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
     if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 9';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [29, 18, 5, 7, 9, 5, 22];
+    const pipelineCounts = [29, 18, 5, 8, 9, 5, 22];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followHero = document.querySelector('#followupsView .snapshot');
