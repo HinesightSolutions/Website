@@ -1,6 +1,6 @@
 (() => {
-  const PLAN_DATE = '2026-09-08';
-  const PLAN_LABEL = 'Tuesday, September 8';
+  const PLAN_DATE = '2026-09-09';
+  const PLAN_LABEL = 'Wednesday, September 9';
 
   const plan = {
     planDate: PLAN_DATE,
@@ -10,24 +10,26 @@
     goals: { warm: 8, pitch: 4, sale: 2 },
     followupsDone: {},
     tasks: [
-      { id: 'sep8-0', name: 'Mark Binkley', action: '8:30 AM Appointment', note: 'First client appointment of the day. Protect the show, slow the conversation down, and move to a firm decision or next step.', priority: 'hot', done: false },
-      { id: 'sep8-1', name: 'Junior Jules', action: '10:00 AM Appointment', note: 'Keep the morning momentum going. Confirm the need, present clearly, and ask for the business when the fit is there.', priority: 'hot', done: false },
-      { id: 'sep8-2', name: 'Gerald Drewa', action: '11:00 AM Follow-Up Appointment', note: 'This is already pitched business. Focus on what is still unresolved rather than starting the presentation over.', priority: 'hot', done: false },
-      { id: 'sep8-3', name: 'Jeannie Sass', action: '4:30 PM Appointment', note: 'Protect the afternoon appointment and turn the conversation into a clear recommendation and next step.', priority: 'hot', done: false },
-      { id: 'sep8-4', name: 'Jennifer Barker', action: '6:00 PM Follow-Up Appointment', note: 'Previously pitched. Isolate the remaining concern, answer it directly, and ask for the decision.', priority: 'hot', done: false },
-      { id: 'sep8-5', name: 'Mary Fondren', action: 'Day 7 Missed-Appointment Recovery — Due Today', note: 'Keep the recovery light. Give her an easy choice between reconnecting later this week or receiving an email.', priority: 'high', done: false },
-      { id: 'sep8-6', name: 'Dustin Beard', action: 'Day 7 Pitch Follow-Up — Due Today', note: 'Reopen the decision without re-pitching. Find the real hesitation and move toward a yes, no, or concrete next step.', priority: 'high', done: false },
-      { id: 'sep8-7', name: 'Mike Olson', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Use a short low-pressure re-entry and make it easy to choose a later call or an email.', priority: 'high', done: false },
-      { id: 'sep8-8', name: 'Interested Pipeline', action: 'Warm Re-Engagement Block', note: 'There are 30 open interested leads in the working pipeline. Work the warmest names after the three cadence-due touches and between appointments.', priority: 'warm', done: false },
-      { id: 'sep8-9', name: 'Fresh / Raw Leads', action: 'Prospecting Block', note: 'Use the open space around appointments to create the next wave of conversations and appointments. Do not let a full calendar stop new pipeline creation.', priority: 'normal', done: false }
+      { id: 'sep9-0', name: 'Betty Adsit', action: '9:00 AM Appointment — Confirm Outcome', note: 'If it held, move her toward a clear recommendation and application. If it missed, recover it immediately while the appointment is still fresh.', priority: 'hot', done: false },
+      { id: 'sep9-1', name: 'Gerald Drewa', action: 'Pitch Follow-Up — Due Today', note: 'This is already pitched business. Find the one remaining concern instead of presenting everything again, then ask for a clear decision or next step.', priority: 'hot', done: false },
+      { id: 'sep9-2', name: 'Kaleigh Wilson', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Use a short, low-pressure re-entry and make it easy to choose a quick call or an email.', priority: 'high', done: false },
+      { id: 'sep9-3', name: 'Steve Ferguson', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Keep it brief and specific. Reopen the conversation and try to turn the interest into a firm time.', priority: 'high', done: false },
+      { id: 'sep9-4', name: 'Elizabeth Tetreault', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Give her an easy path back into the conversation without making it feel like a generic follow-up.', priority: 'high', done: false },
+      { id: 'sep9-5', name: 'Fnu Bharat', action: 'Day 14 Interested Follow-Up — Due Today', note: 'Use a soft re-engagement and move toward a call only if the interest is still there.', priority: 'high', done: false },
+      { id: 'sep9-6', name: 'Pitch Completed Queue', action: 'Close Existing Business', note: 'There are 5 clients currently sitting at Pitch Completed. After Gerald, work the warmest unresolved pitches before spending the whole day on raw leads.', priority: 'warm', done: false },
+      { id: 'sep9-7', name: 'Interested Pipeline', action: 'Warm Re-Engagement Block', note: 'There are 29 open Positive Response clients. Start with the freshest names from yesterday — Chiquita Tucker, Lawrence Jackson, Darci Bray, and Darnelle Guidry.', priority: 'warm', done: false },
+      { id: 'sep9-8', name: 'Fresh / Raw Leads', action: 'Prospecting Block', note: 'Lead creation still matters today. Build new conversations and appointments after the warmest money has been worked.', priority: 'normal', done: false },
+      { id: 'sep9-9', name: 'Cy Garland', action: 'Protect Tomorrow — 5:00 PM Appointment', note: 'Confirm tomorrow’s appointment today so the next close opportunity is protected before you finish the day.', priority: 'normal', done: false }
     ]
   };
 
   const freshFollowups = [
-    ['Mary Fondren','Appointment Missed','hot','Day 7 due today','Sep 7'],
-    ['Mike Olson','Positive Response','high','Day 14 due today','Sep 7'],
-    ['Dustin Beard','Pitch Completed','warm','Day 7 due today','Sep 7']
-  ].map((x, i) => ({ id: 'sep8f-' + i, name: x[0], stage: x[1], priority: x[2], due: x[3], worked: x[4] }));
+    ['Kaleigh Wilson','Positive Response','high','Day 14 due today','Sep 8'],
+    ['Steve Ferguson','Positive Response','high','Day 14 due today','Sep 8'],
+    ['Elizabeth Tetreault','Positive Response','high','Day 14 due today','Sep 8'],
+    ['Fnu Bharat','Positive Response','high','Day 14 due today','Sep 8'],
+    ['Gerald Drewa','Pitch Completed','warm','Day 1 due today','Sep 1']
+  ].map((x, i) => ({ id: 'sep9f-' + i, name: x[0], stage: x[1], priority: x[2], due: x[3], worked: x[4] }));
 
   function clonePlan() {
     return typeof structuredClone === 'function' ? structuredClone(plan) : JSON.parse(JSON.stringify(plan));
@@ -67,10 +69,10 @@
     if (dateEl) dateEl.textContent = localDateKey() < PLAN_DATE ? `UPCOMING • ${PLAN_LABEL.toUpperCase()}` : PLAN_LABEL.toUpperCase();
 
     const title = document.querySelector('#todayView h1');
-    if (title) title.textContent = 'Tuesday Close Plan';
+    if (title) title.textContent = 'Wednesday Close Plan';
 
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'Five client appointments are on the calendar today. Protect the show rate, work the three due follow-ups, and turn the schedule into written and issued AV.';
+    if (heroCopy) heroCopy.textContent = 'One appointment is on the calendar today and five cadence-due follow-ups are ready. Close the warm business first, then lean into fresh lead volume and build the next wave.';
 
     const reset = document.getElementById('reset');
     if (reset) reset.onclick = () => {
@@ -102,15 +104,11 @@
       schedule.className = 'card daySchedule';
       schedule.innerHTML = `
         <div class="eyebrow">TODAY'S ANCHORS</div>
-        <div class="dayScheduleTitle">Tuesday schedule</div>
+        <div class="dayScheduleTitle">Wednesday schedule</div>
         <div class="dayScheduleItems">
-          <span class="dayScheduleItem"><strong>8:30</strong> Mark Binkley</span>
-          <span class="dayScheduleItem"><strong>10:00</strong> Junior Jules</span>
-          <span class="dayScheduleItem"><strong>11:00</strong> Gerald Drewa</span>
-          <span class="dayScheduleItem"><strong>12:00</strong> Product Training</span>
-          <span class="dayScheduleItem"><strong>4:00</strong> Sales Training</span>
-          <span class="dayScheduleItem"><strong>4:30</strong> Jeannie Sass</span>
-          <span class="dayScheduleItem"><strong>6:00</strong> Jennifer Barker</span>
+          <span class="dayScheduleItem"><strong>9:00</strong> Betty Adsit</span>
+          <span class="dayScheduleItem"><strong>Due</strong> Gerald Drewa — Pitch Follow-Up</span>
+          <span class="dayScheduleItem"><strong>Next</strong> Thu 5:00 PM — Cy Garland</span>
         </div>`;
       head.parentNode.insertBefore(schedule, head);
     }
@@ -121,37 +119,39 @@
       else PIPELINE.unshift({ name, ...patch });
     };
 
-    patchClient('Mark Binkley', { work: 'Sep 5', appt: 'Sep 8 • 8:30 AM', stage: 'Appointment Set', source: 'Shared' });
-    patchClient('Junior Jules', { work: 'Sep 3', appt: 'Sep 8 • 10:00 AM', stage: 'Appointment Set', source: 'Carson - Branded' });
-    patchClient('Gerald Drewa', { work: 'Sep 1', appt: 'Sep 8 • 11:00 AM', stage: 'Pitch Completed', source: 'Branded' });
-    patchClient('Jeannie Sass', { work: 'Sep 7', appt: 'Sep 8 • 4:30 PM', stage: 'Appointment Set', source: 'Calendar' });
-    patchClient('Jennifer Barker', { work: 'Sep 3', appt: 'Sep 8 • 6:00 PM', stage: 'Pitch Completed', source: 'Montague New' });
     patchClient('Betty Adsit', { work: 'Sep 4', appt: 'Sep 9 • 9:00 AM', stage: 'Appointment Set', source: 'Branded' });
-    patchClient('Michael Greenfield', { work: 'Sep 5', appt: 'Sep 11 • 10:30 AM', stage: 'Pitch Completed', source: 'Pipeline' });
     patchClient('Cy Garland', { work: 'Sep 3', appt: 'Sep 10 • 5:00 PM', stage: 'Appointment Set', source: 'Carson 1' });
-    patchClient('Shakeya Dunbar', { work: 'Sep 7', appt: '—', stage: 'Not Interested', source: 'Pipeline' });
-    patchClient('Mary Fondren', { work: 'Sep 7', appt: 'Sep 1 • 4:00 PM', stage: 'Appointment Missed', source: 'Montague New' });
-    patchClient('Mike Olson', { work: 'Sep 7', appt: '—', stage: 'Positive Response', source: 'Shared' });
-    patchClient('Dustin Beard', { work: 'Sep 7', appt: 'Sep 1 • 1:10 PM', stage: 'Pitch Completed', source: 'Branded' });
+    patchClient('Gerald Drewa', { work: 'Sep 1', appt: 'Sep 8 • 11:00 AM', stage: 'Pitch Completed', source: 'Branded' });
+    patchClient('Kaleigh Wilson', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Pipeline' });
+    patchClient('Steve Ferguson', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Pipeline' });
+    patchClient('Elizabeth Tetreault', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Pipeline' });
+    patchClient('Fnu Bharat', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Pipeline' });
+    patchClient('Dustin Beard', { work: 'Sep 8', appt: 'Sep 1 • 1:10 PM', stage: 'Pitch Completed', source: 'Branded' });
+    patchClient('Mary Fondren', { work: 'Sep 8', appt: 'Sep 1 • 4:00 PM', stage: 'Appointment Missed', source: 'Montague New' });
+    patchClient('Chiquita Tucker', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Exclusive' });
+    patchClient('Lawrence Jackson', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Branded' });
+    patchClient('Darci Bray', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Carson - Branded' });
+    patchClient('Darnelle Guidry', { work: 'Sep 8', appt: '—', stage: 'Positive Response', source: 'Carson - Shared' });
+    patchClient('Veretta Jones', { work: 'Sep 8', appt: 'Sep 4 • 3:00 PM', stage: 'Appointment Missed', source: 'Carson 1' });
 
     FOLLOWUPS.splice(0, FOLLOWUPS.length, ...freshFollowups);
 
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
-    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 8 AM';
+    if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 9 AM';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [30, 19, 5, 7, 9, 5, 20];
+    const pipelineCounts = [29, 19, 5, 7, 9, 5, 22];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followHero = document.querySelector('#followupsView .snapshot');
-    if (followHero) followHero.textContent = 'Live cadence-due snapshot • September 8 AM';
+    if (followHero) followHero.textContent = 'Live cadence-due snapshot • September 9 AM';
     const followStats = document.querySelectorAll('#followupsView .statNum');
-    const followCounts = [3, 1, 1, 1];
+    const followCounts = [5, 0, 4, 1];
     followStats.forEach((el, i) => { if (i < followCounts.length) el.textContent = followCounts[i]; });
 
     renderToday();
     renderPipeline();
     renderFollowups();
   } catch (err) {
-    console.error('Unable to load September 8 sales plan', err);
+    console.error('Unable to load September 9 sales plan', err);
   }
 })();
