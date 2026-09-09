@@ -1,6 +1,6 @@
 (() => {
   const GOAL = 200000;
-  const CURRENT = 92881;
+  const CURRENT = 94584.28;
   const DEADLINE = new Date('2026-09-24T23:59:59');
 
   const money = value => '$' + Math.round(value).toLocaleString('en-US');
