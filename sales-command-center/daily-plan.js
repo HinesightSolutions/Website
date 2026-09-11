@@ -6,7 +6,7 @@
     planDate: PLAN_DATE,
     av: 3076.92,
     avGoal: 10000,
-    targets: { warm: 8, pitch: 1, sale: 1 },
+    targets: { warm: 9, pitch: 1, sale: 1 },
     goals: { warm: 8, pitch: 4, sale: 2 },
     followupsDone: {},
     tasks: [
@@ -15,10 +15,11 @@
       { id: 'sep11-2', name: 'David Chastain', action: 'Fresh Positive Response — Convert Now', note: 'Fresh response today. Work him while the request is still active and get a concrete next step.', priority: 'high', done: false },
       { id: 'sep11-3', name: 'John Mason', action: 'Fresh Positive Response — Convert Now', note: 'Fresh response today. Keep the conversation active and turn the Marketplace reinstatement question into a clear next step.', priority: 'high', done: false },
       { id: 'sep11-4', name: 'Patricia Almond', action: 'Fresh Positive Response — Convert Now', note: 'Fresh response today from an older request. Work her while she is engaged and move toward a firm appointment or plan review.', priority: 'high', done: false },
+      { id: 'sep11-12', name: 'Valerie Alexander', action: 'Fresh Positive Response — Convert Now', note: 'Fresh response today from the #2 Exclusive LM file. Work her while she is engaged and move toward a firm appointment or plan review.', priority: 'high', done: false },
       { id: 'sep11-5', name: 'Apurva Soundararajan', action: '8:36 AM Follow-Up — Move the Conversation Forward', note: 'Morning follow-up window. Find the remaining question and create a concrete next step.', priority: 'hot', done: false },
       { id: 'sep11-6', name: 'Collin Veach', action: 'Fresh Positive Response — Convert Now', note: 'New lead and positive response today. Work him while the request is still fresh.', priority: 'high', done: false },
       { id: 'sep11-7', name: 'Michael Greenfield', action: '10:30 AM Pitch Follow-Up — Close Attempt', note: 'Already pitched with a firm appointment today. Isolate the last concern and ask for the application.', priority: 'hot', done: false },
-      { id: 'sep11-8', name: 'Fresh Lead Flow', action: 'KEEP RUNNING LEADS — Do Not Let the Funnel Dry Up', note: 'You have already produced 8 positive responses and a fully issued sale today. Keep fresh traffic moving while converting the people who are raising their hands.', priority: 'high', done: false },
+      { id: 'sep11-8', name: 'Fresh Lead Flow', action: 'KEEP RUNNING LEADS — Do Not Let the Funnel Dry Up', note: 'You have already produced 9 positive responses and a fully issued sale today. Keep fresh traffic moving while converting the people who are raising their hands.', priority: 'high', done: false },
       { id: 'sep11-9', name: 'Monica Elwood', action: 'Day 1 Follow-Up — Turn Interest Into a Time', note: 'Fresh response from yesterday. Give her a simple choice: options by text first or a quick call.', priority: 'high', done: false },
       { id: 'sep11-10', name: 'Jeannie Sass', action: 'Pitch Follow-Up — Reopen the Decision', note: 'Already pitched. Ask whether price or benefits are the bigger remaining question and move from there.', priority: 'hot', done: false },
       { id: 'sep11-11', name: 'Juanae Jackson', action: '7:00 PM Appointment — Protect the Show', note: 'Evening close window. Confirm earlier in the day and send a short reminder before the call.', priority: 'hot', done: false }
@@ -75,7 +76,7 @@
     const title = document.querySelector('#todayView h1');
     if (title) title.textContent = 'Friday Sales Plan';
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'Current board: 8 positive responses, 1 appointment set, 1 pitch, 1 sale, $3,076.92 Written AV, and $3,076.92 Issued AV. You hit the warm-conversation target — keep converting the fresh interest and keep lead flow active.';
+    if (heroCopy) heroCopy.textContent = 'Current board: 9 positive responses, 1 appointment set, 1 pitch, 1 sale, $3,076.92 Written AV, and $3,076.92 Issued AV. You are above the warm-conversation target — keep converting the fresh interest and keep lead flow active.';
 
     const reset = document.getElementById('reset');
     if (reset) reset.onclick = () => {
@@ -101,8 +102,8 @@
       leadFlow.className = 'card leadFlowFocus';
       leadFlow.innerHTML = `
         <div class="eyebrow">FRIDAY GAME PLAN • FRESH FLOW + FAST CONVERSION</div>
-        <div class="leadFlowTitle">Eight positive responses and a fully issued sale are already on the board</div>
-        <div class="leadFlowCopy">You have now hit the 8-response target for the day. Patricia Almond and John Mason are fresh opportunities added to the board, alongside Marcina Morris, David Chastain, and Collin Veach. Shift more attention toward converting those conversations into firm appointments and pitches without shutting off fresh lead flow.</div>
+        <div class="leadFlowTitle">Nine positive responses and a fully issued sale are already on the board</div>
+        <div class="leadFlowCopy">You are now above the 8-response target for the day. Valerie Alexander is the newest fresh opportunity, alongside Patricia Almond, John Mason, Marcina Morris, David Chastain, and Collin Veach. Shift more attention toward converting those conversations into firm appointments and pitches without shutting off fresh lead flow.</div>
         <div class="leadFlowMix"><div><b>40%</b><span>Fresh Lead Flow</span></div><div><b>40%</b><span>Fresh / Warm Conversion</span></div><div><b>20%</b><span>Pitch + Due Follow-Up</span></div></div>`;
       head.parentNode.insertBefore(leadFlow, head);
 
@@ -130,6 +131,7 @@
     patchClient('David Chastain', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Montague New' });
     patchClient('John Mason', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Carson - Branded' });
     patchClient('Patricia Almond', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Carson - PingPost Exclusive' });
+    patchClient('Valerie Alexander', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'#2 Exclusive LM' });
     patchClient('Michael Greenfield', { work:'Sep 5', appt:'Sep 11 • 10:30 AM', stage:'Pitch Completed', source:'Pipeline' });
     patchClient('Victoria Thompson', { work:'Sep 11', appt:'Sep 19 • 11:30 AM', stage:'Appointment Set', source:'#2 Exclusive LM' });
     patchClient('Juanae Jackson', { work:'Sep 9', appt:'Sep 11 • 7:00 PM', stage:'Appointment Set', source:'Carson - Branded' });
@@ -145,7 +147,7 @@
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
     if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 11';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [38, 22, 6, 9, 9, 5, 24];
+    const pipelineCounts = [39, 22, 6, 9, 9, 5, 24];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followHero = document.querySelector('#followupsView .snapshot');
