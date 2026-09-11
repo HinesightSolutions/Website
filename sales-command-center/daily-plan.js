@@ -4,22 +4,20 @@
 
   const plan = {
     planDate: PLAN_DATE,
-    av: 0,
+    av: 3076.92,
     avGoal: 10000,
-    targets: { warm: 3, pitch: 0, sale: 0 },
+    targets: { warm: 4, pitch: 1, sale: 1 },
     goals: { warm: 8, pitch: 4, sale: 2 },
     followupsDone: {},
     tasks: [
-      { id: 'sep11-0', name: 'Apurva Soundararajan', action: '8:36 AM Follow-Up — Be Ready to Close', note: 'First client window of the morning. Go in with one goal: find the remaining question and move the conversation forward.', priority: 'hot', done: false },
-      { id: 'sep11-1', name: 'Judith Icenogle', action: 'Fresh Positive Response — Convert Now', note: 'Positive response this morning. Keep the lag time tiny and move toward either a real conversation or a firm appointment.', priority: 'high', done: false },
+      { id: 'sep11-0', name: 'Jaime Lamboy', action: 'SOLD — $3,076.92 Written AV', note: 'Fresh sale written this morning. Keep the momentum going and treat the next close window like the next at-bat.', priority: 'hot', done: true },
+      { id: 'sep11-1', name: 'Apurva Soundararajan', action: '8:36 AM Follow-Up — Move the Conversation Forward', note: 'Morning follow-up window. Find the remaining question and create a concrete next step.', priority: 'hot', done: false },
       { id: 'sep11-2', name: 'Collin Veach', action: 'Fresh Positive Response — Convert Now', note: 'New lead and positive response today. Work him while the request is still fresh.', priority: 'high', done: false },
-      { id: 'sep11-3', name: 'Elizabeth McGuire', action: 'Fresh Positive Response — Convert Now', note: 'New branded lead and positive response today. Get a concrete next step before the morning gets busy.', priority: 'high', done: false },
-      { id: 'sep11-4', name: 'Michael Greenfield', action: '10:30 AM Pitch Follow-Up — Close Attempt', note: 'Already pitched with a firm appointment today. Isolate the last concern and ask for the application.', priority: 'hot', done: false },
-      { id: 'sep11-5', name: 'Victoria Thompson', action: '11:15 AM Appointment — Protect & Close', note: 'Firm calendar appointment. Confirm the time, send the pre-call reminder, and treat it like a real close window.', priority: 'hot', done: false },
-      { id: 'sep11-6', name: 'Fresh Lead Flow', action: 'KEEP RUNNING LEADS — Do Not Let the Funnel Dry Up', note: 'You already have 3 positive responses this morning. Keep fresh traffic moving while converting the people who are raising their hands.', priority: 'high', done: false },
-      { id: 'sep11-7', name: 'Monica Elwood', action: 'Day 1 Follow-Up — Turn Interest Into a Time', note: 'Fresh response from yesterday. Give her a simple choice: options by text first or a quick call.', priority: 'high', done: false },
-      { id: 'sep11-8', name: 'Jeannie Sass', action: 'Pitch Follow-Up — Reopen the Decision', note: 'Already pitched. Ask whether price or benefits are the bigger remaining question and move from there.', priority: 'hot', done: false },
-      { id: 'sep11-9', name: 'Juanae Jackson', action: '7:00 PM Appointment — Protect the Show', note: 'Evening close window. Confirm earlier in the day and send a short reminder before the call.', priority: 'hot', done: false }
+      { id: 'sep11-3', name: 'Michael Greenfield', action: '10:30 AM Pitch Follow-Up — Close Attempt', note: 'Already pitched with a firm appointment today. Isolate the last concern and ask for the application.', priority: 'hot', done: false },
+      { id: 'sep11-4', name: 'Fresh Lead Flow', action: 'KEEP RUNNING LEADS — Do Not Let the Funnel Dry Up', note: 'You have already produced 4 positive responses and a sale today. Keep fresh traffic moving while converting the people who are raising their hands.', priority: 'high', done: false },
+      { id: 'sep11-5', name: 'Monica Elwood', action: 'Day 1 Follow-Up — Turn Interest Into a Time', note: 'Fresh response from yesterday. Give her a simple choice: options by text first or a quick call.', priority: 'high', done: false },
+      { id: 'sep11-6', name: 'Jeannie Sass', action: 'Pitch Follow-Up — Reopen the Decision', note: 'Already pitched. Ask whether price or benefits are the bigger remaining question and move from there.', priority: 'hot', done: false },
+      { id: 'sep11-7', name: 'Juanae Jackson', action: '7:00 PM Appointment — Protect the Show', note: 'Evening close window. Confirm earlier in the day and send a short reminder before the call.', priority: 'hot', done: false }
     ]
   };
 
@@ -50,7 +48,6 @@
         try { localStorage.setItem(K + '-archive-' + (saved.planDate || 'previous'), JSON.stringify(saved)); } catch {}
       }
       s = clonePlan();
-      localStorage.setItem(K, JSON.stringify(s));
     } else {
       s = saved;
       s.planDate = PLAN_DATE;
@@ -66,15 +63,15 @@
         const prior = priorByName.get(task.name);
         return prior ? { ...task, done: !!prior.done || !!task.done } : { ...task };
       });
-      localStorage.setItem(K, JSON.stringify(s));
     }
+    localStorage.setItem(K, JSON.stringify(s));
 
     const dateEl = document.getElementById('date');
     if (dateEl) dateEl.textContent = localDateKey() < PLAN_DATE ? `UPCOMING • ${PLAN_LABEL.toUpperCase()}` : PLAN_LABEL.toUpperCase();
     const title = document.querySelector('#todayView h1');
     if (title) title.textContent = 'Friday Sales Plan';
     const heroCopy = document.querySelector('#todayView .hero .muted');
-    if (heroCopy) heroCopy.textContent = 'You already have 3 positive responses this morning. Convert the fresh interest immediately, protect the 10:30 and 11:15 close windows, and keep fresh lead flow running into the afternoon.';
+    if (heroCopy) heroCopy.textContent = 'Current board: 4 positive responses, 1 appointment set, 1 pitch, 1 sale, and $3,076.92 Written AV. Keep fresh lead flow active and protect the remaining close windows.';
 
     const reset = document.getElementById('reset');
     if (reset) reset.onclick = () => {
@@ -88,9 +85,7 @@
     if (!document.getElementById('dayScheduleCss')) {
       const css = document.createElement('style');
       css.id = 'dayScheduleCss';
-      css.textContent = `
-        .daySchedule{margin:16px 0 0;padding:17px 18px}.dayScheduleTitle{font:700 17px Georgia;color:var(--navy);margin:4px 0 10px}.dayScheduleItems{display:flex;gap:7px;flex-wrap:wrap}.dayScheduleItem{background:#f0eee9;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:750;color:var(--navy)}.dayScheduleItem strong{color:var(--blue);margin-right:4px}.leadFlowFocus{margin:16px 0 0;padding:19px 20px;border:1px solid var(--line)}.leadFlowTitle{font:700 22px Georgia;color:var(--navy);margin:4px 0 5px}.leadFlowCopy{font-size:11px;line-height:1.55;color:var(--muted);max-width:780px}.leadFlowMix{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.leadFlowMix div{background:#f0eee9;border:1px solid var(--line);border-radius:14px;padding:12px}.leadFlowMix b{display:block;font-size:18px;color:var(--navy);margin-bottom:3px}.leadFlowMix span{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}@media(max-width:760px){.leadFlowMix{grid-template-columns:1fr}}
-      `;
+      css.textContent = `.daySchedule{margin:16px 0 0;padding:17px 18px}.dayScheduleTitle{font:700 17px Georgia;color:var(--navy);margin:4px 0 10px}.dayScheduleItems{display:flex;gap:7px;flex-wrap:wrap}.dayScheduleItem{background:#f0eee9;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:750;color:var(--navy)}.dayScheduleItem strong{color:var(--blue);margin-right:4px}.leadFlowFocus{margin:16px 0 0;padding:19px 20px;border:1px solid var(--line)}.leadFlowTitle{font:700 22px Georgia;color:var(--navy);margin:4px 0 5px}.leadFlowCopy{font-size:11px;line-height:1.55;color:var(--muted);max-width:780px}.leadFlowMix{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.leadFlowMix div{background:#f0eee9;border:1px solid var(--line);border-radius:14px;padding:12px}.leadFlowMix b{display:block;font-size:18px;color:var(--navy);margin-bottom:3px}.leadFlowMix span{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}@media(max-width:760px){.leadFlowMix{grid-template-columns:1fr}}`;
       document.head.appendChild(css);
     }
 
@@ -102,8 +97,8 @@
       leadFlow.className = 'card leadFlowFocus';
       leadFlow.innerHTML = `
         <div class="eyebrow">FRIDAY GAME PLAN • FRESH FLOW + FAST CONVERSION</div>
-        <div class="leadFlowTitle">Three people have already raised their hand — convert them without turning off the lead faucet</div>
-        <div class="leadFlowCopy">At 8 AM you were already at 3 positive responses on very little activity. The best use of today is not another giant recycle block: respond fast to fresh interest, protect the scheduled close windows, and keep enough new leads coming in that Monday starts with inventory.</div>
+        <div class="leadFlowTitle">You already put a sale on the board — keep feeding the funnel</div>
+        <div class="leadFlowCopy">Jaime Lamboy is sold for $3,076.92 Written AV. Judith Icenogle and Elizabeth McGuire are now closed out as Not Interested, and Victoria Thompson moved to Saturday 9/19. The move now is fresh lead flow plus the remaining real close windows.</div>
         <div class="leadFlowMix"><div><b>50%</b><span>Fresh Lead Flow</span></div><div><b>30%</b><span>Fresh / Warm Conversion</span></div><div><b>20%</b><span>Pitch + Due Follow-Up</span></div></div>`;
       head.parentNode.insertBefore(leadFlow, head);
 
@@ -114,10 +109,10 @@
         <div class="dayScheduleItems">
           <span class="dayScheduleItem"><strong>8:36</strong> Apurva — Follow-Up</span>
           <span class="dayScheduleItem"><strong>10:30</strong> Michael Greenfield — Pitch Follow-Up</span>
-          <span class="dayScheduleItem"><strong>11:15</strong> Victoria Thompson — Appointment</span>
           <span class="dayScheduleItem"><strong>12:00</strong> Friday Kick-Off</span>
           <span class="dayScheduleItem"><strong>4:00</strong> Advanced Track</span>
           <span class="dayScheduleItem"><strong>7:00</strong> Juanae Jackson — Appointment</span>
+          <span class="dayScheduleItem"><strong>Sat 9/19</strong> Victoria Thompson — 11:30 AM</span>
         </div>`;
       head.parentNode.insertBefore(schedule, head);
     }
@@ -126,12 +121,13 @@
       const row = PIPELINE.find(x => x.name === name);
       if (row) Object.assign(row, patch); else PIPELINE.unshift({ name, ...patch });
     };
+    patchClient('Jaime Lamboy', { work:'Sep 11', appt:'—', stage:'Sold', source:'Montague New', av:3076.92 });
     patchClient('Michael Greenfield', { work:'Sep 5', appt:'Sep 11 • 10:30 AM', stage:'Pitch Completed', source:'Pipeline' });
-    patchClient('Victoria Thompson', { work:'Sep 10', appt:'Sep 11 • 11:15 AM', stage:'Appointment Set', source:'#2 Exclusive LM' });
+    patchClient('Victoria Thompson', { work:'Sep 11', appt:'Sep 19 • 11:30 AM', stage:'Appointment Set', source:'#2 Exclusive LM' });
     patchClient('Juanae Jackson', { work:'Sep 9', appt:'Sep 11 • 7:00 PM', stage:'Appointment Set', source:'Carson - Branded' });
-    patchClient('Judith Icenogle', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Carson - PingPost Exclusive' });
+    patchClient('Judith Icenogle', { work:'Sep 11', appt:'—', stage:'Not Interested', source:'Carson - PingPost Exclusive' });
     patchClient('Collin Veach', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Carson - PingPost Exclusive' });
-    patchClient('Elizabeth McGuire', { work:'Sep 11', appt:'—', stage:'Positive Response', source:'Carson - Branded' });
+    patchClient('Elizabeth McGuire', { work:'Sep 11', appt:'—', stage:'Not Interested', source:'Carson - Branded' });
     patchClient('Monica Elwood', { work:'Sep 10', appt:'—', stage:'Positive Response', source:'Montague New' });
     patchClient('Jeannie Sass', { work:'Sep 9', appt:'Sep 10 • 4:30 PM', stage:'Pitch Completed', source:'Carson - Branded' });
     patchClient('Joshua Morman', { work:'Sep 10', appt:'Aug 12 • 5:00 PM', stage:'Pitch Completed', source:'Branded' });
@@ -141,7 +137,7 @@
     const pipelineHero = document.querySelector('#pipelineView .snapshot');
     if (pipelineHero) pipelineHero.textContent = 'Current pipeline snapshot • September 11';
     const pipelineStats = document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts = [36, 22, 6, 8, 9, 5, 22];
+    const pipelineCounts = [34, 22, 6, 9, 9, 5, 24];
     pipelineStats.forEach((el, i) => { if (i < pipelineCounts.length) el.textContent = pipelineCounts[i]; });
 
     const followHero = document.querySelector('#followupsView .snapshot');
