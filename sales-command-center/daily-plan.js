@@ -6,10 +6,11 @@
     planDate: PLAN_DATE,
     av: 0,
     avGoal: 10000,
-    targets: { warm: 2, pitch: 0, sale: 0 },
+    targets: { warm: 3, pitch: 0, sale: 0 },
     goals: { warm: 5, pitch: 2, sale: 1 },
     followupsDone: {},
     tasks: [
+      { id:'sep14-13', name:'Deborah A Wilson Wilson', action:'Fresh Positive Response — Convert Now', note:'Fresh response today from an older Carson 1 transfer lead. Work her while she is engaged and move toward a real conversation or firm appointment.', priority:'high', done:false },
       { id:'sep14-12', name:'Joy Tennyson', action:'Tomorrow 9:30 AM Appointment — Confirm + Prep', note:'New appointment set today for tomorrow morning. Confirm the 9:30 AM time and have the strongest recommendation ready before the call.', priority:'hot', done:false },
       { id:'sep14-11', name:'Germain Kennard', action:'Fresh Positive Response — Convert Now', note:'Fresh response today from an older Carson PingPost lead. Work him while he is engaged and move toward a real conversation or firm appointment.', priority:'high', done:false },
       { id:'sep14-10', name:'Larry Marion', action:'Fresh Positive Response — Convert Now', note:'Fresh response today from an older #2 Exclusive LM transfer lead. Work him while he is engaged and move toward a real conversation or firm appointment.', priority:'high', done:false },
@@ -77,7 +78,7 @@
     const dateEl=document.getElementById('date'); if(dateEl) dateEl.textContent=localDateKey()<PLAN_DATE?`UPCOMING • ${PLAN_LABEL.toUpperCase()}`:PLAN_LABEL.toUpperCase();
     const title=document.querySelector('#todayView h1'); if(title) title.textContent='Monday Sales Plan';
     const heroCopy=document.querySelector('#todayView .hero .muted');
-    if(heroCopy) heroCopy.textContent='Current board: 2 positive responses, 1 appointment set, 0 pitches, 0 sales, $0 Written AV, and $0 Issued AV. Joy Tennyson is booked for tomorrow at 9:30 AM, while Germain Kennard and Larry Marion are the two warm conversations on the board today.';
+    if(heroCopy) heroCopy.textContent='Current board: 3 positive responses, 1 appointment set, 0 pitches, 0 sales, $0 Written AV, and $0 Issued AV. Deborah Wilson, Germain Kennard, and Larry Marion are the three warm conversations on the board today, with Joy Tennyson booked for tomorrow at 9:30 AM.';
 
     const reset=document.getElementById('reset');
     if(reset) reset.onclick=()=>{if(confirm("Reset today's checklist?")){s=clonePlan();localStorage.setItem(K,JSON.stringify(s));renderToday();}};
@@ -92,7 +93,7 @@
     const head=document.querySelector('#todayView .head');
     if(head){
       const leadFlow=document.createElement('section'); leadFlow.className='card leadFlowFocus';
-      leadFlow.innerHTML=`<div class="eyebrow">MONDAY GAME PLAN • BUILD FLOW + CLOSE THE WARM MONEY</div><div class="leadFlowTitle">Two positive responses today + Joy booked for tomorrow morning</div><div class="leadFlowCopy">Germain Kennard and Larry Marion are both live warm conversations today, and Joy Tennyson is now booked for Tuesday at 9:30 AM. Keep converting the live interest, then protect the scheduled appointment windows.</div><div class="leadFlowMix"><div><b>35%</b><span>Fresh Lead Flow</span></div><div><b>40%</b><span>Due Follow-Ups</span></div><div><b>25%</b><span>Appointments + Close</span></div></div>`;
+      leadFlow.innerHTML=`<div class="eyebrow">MONDAY GAME PLAN • BUILD FLOW + CLOSE THE WARM MONEY</div><div class="leadFlowTitle">Three positive responses today + Joy booked for tomorrow morning</div><div class="leadFlowCopy">Deborah Wilson, Germain Kennard, and Larry Marion are all live warm conversations today, and Joy Tennyson is booked for Tuesday at 9:30 AM. Keep converting the live interest, then protect the scheduled appointment windows.</div><div class="leadFlowMix"><div><b>35%</b><span>Fresh Lead Flow</span></div><div><b>40%</b><span>Due Follow-Ups</span></div><div><b>25%</b><span>Appointments + Close</span></div></div>`;
       head.parentNode.insertBefore(leadFlow,head);
       const schedule=document.createElement('section'); schedule.className='card daySchedule';
       schedule.innerHTML=`<div class="eyebrow">CLOSE WINDOWS</div><div class="dayScheduleTitle">Current appointment schedule</div><div class="dayScheduleItems"><span class="dayScheduleItem"><strong>4:00 PM</strong> Donna Burgess — Appointment</span><span class="dayScheduleItem"><strong>6:00 PM</strong> Jennifer Barker — Appointment / Close</span><span class="dayScheduleItem"><strong>Tue 9:30 AM</strong> Joy Tennyson — Appointment</span><span class="dayScheduleItem"><strong>Tue 9:30 AM</strong> Christine Milham — Follow-Up</span><span class="dayScheduleItem"><strong>Wed 5:30 PM</strong> Aurora Kramer — Appointment</span><span class="dayScheduleItem"><strong>Sat 11:30 AM</strong> Victoria Thompson — Appointment</span></div>`;
@@ -100,6 +101,7 @@
     }
 
     const patchClient=(name,patch)=>{const row=PIPELINE.find(x=>x.name===name);if(row)Object.assign(row,patch);else PIPELINE.unshift({name,...patch});};
+    patchClient('Deborah A Wilson Wilson',{work:'Sep 14',appt:'—',stage:'Positive Response',source:'Carson 1'});
     patchClient('Joy Tennyson',{work:'Sep 14',appt:'Sep 15 • 9:30 AM',stage:'Appointment Set',source:'Carson - Branded'});
     patchClient('Germain Kennard',{work:'Sep 14',appt:'—',stage:'Positive Response',source:'Carson - PingPost Exclusive'});
     patchClient('Larry Marion',{work:'Sep 14',appt:'—',stage:'Positive Response',source:'#2 Exclusive LM'});
@@ -117,7 +119,7 @@
     FOLLOWUPS.splice(0,FOLLOWUPS.length,...freshFollowups);
 
     const pipelineHero=document.querySelector('#pipelineView .snapshot'); if(pipelineHero) pipelineHero.textContent='Current pipeline snapshot • September 14';
-    const pipelineStats=document.querySelectorAll('#pipelineView .statNum'); const pipelineCounts=[41,23,6,10,9,5,24];
+    const pipelineStats=document.querySelectorAll('#pipelineView .statNum'); const pipelineCounts=[42,23,6,10,9,5,24];
     pipelineStats.forEach((el,i)=>{if(i<pipelineCounts.length)el.textContent=pipelineCounts[i];});
     const followHero=document.querySelector('#followupsView .snapshot'); if(followHero) followHero.textContent='Live cadence-due snapshot • September 14';
     const followStats=document.querySelectorAll('#followupsView .statNum'); const followCounts=[21,2,15,4];
