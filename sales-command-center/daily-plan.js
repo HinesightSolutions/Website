@@ -6,10 +6,11 @@
     planDate: PLAN_DATE,
     av: 0,
     avGoal: 10000,
-    targets: { warm: 0, pitch: 0, sale: 0 },
+    targets: { warm: 1, pitch: 0, sale: 0 },
     goals: { warm: 5, pitch: 2, sale: 1 },
     followupsDone: {},
     tasks: [
+      { id:'sep14-10', name:'Larry Marion', action:'Fresh Positive Response — Convert Now', note:'Fresh response today from an older #2 Exclusive LM transfer lead. Work him while he is engaged and move toward a real conversation or firm appointment.', priority:'high', done:false },
       { id:'sep14-0', name:'Donna Burgess', action:'4:00 PM Appointment — Protect the Show', note:'First close window today. Confirm she is still good for 4:00, then keep the call focused on getting to a clear recommendation.', priority:'hot', done:false },
       { id:'sep14-1', name:'Jennifer Barker', action:'6:00 PM Appointment — Close Attempt', note:'Already at Pitch Completed and back on the calendar tonight. Reopen the decision, isolate the remaining concern, and ask for the application.', priority:'hot', done:false },
       { id:'sep14-2', name:'Michael Greenfield', action:'Pitch Follow-Up — Close the Loop', note:'Decision follow-up is overdue. Ask whether price, benefits, or timing is the last thing holding this up.', priority:'hot', done:false },
@@ -74,7 +75,7 @@
     const dateEl=document.getElementById('date'); if(dateEl) dateEl.textContent=localDateKey()<PLAN_DATE?`UPCOMING • ${PLAN_LABEL.toUpperCase()}`:PLAN_LABEL.toUpperCase();
     const title=document.querySelector('#todayView h1'); if(title) title.textContent='Monday Sales Plan';
     const heroCopy=document.querySelector('#todayView .hero .muted');
-    if(heroCopy) heroCopy.textContent='Fresh Monday board: no positive responses, pitches, or sales recorded yet today. Protect the 4:00 and 6:00 close windows, work the strongest due follow-ups, and keep new lead flow running.';
+    if(heroCopy) heroCopy.textContent='Current board: 1 positive response, 0 pitches, 0 sales, $0 Written AV, and $0 Issued AV. Larry Marion is the first warm conversation on the board today — protect the 4:00 and 6:00 close windows and keep fresh lead flow running.';
 
     const reset=document.getElementById('reset');
     if(reset) reset.onclick=()=>{if(confirm("Reset today's checklist?")){s=clonePlan();localStorage.setItem(K,JSON.stringify(s));renderToday();}};
@@ -89,7 +90,7 @@
     const head=document.querySelector('#todayView .head');
     if(head){
       const leadFlow=document.createElement('section'); leadFlow.className='card leadFlowFocus';
-      leadFlow.innerHTML=`<div class="eyebrow">MONDAY GAME PLAN • BUILD FLOW + CLOSE THE WARM MONEY</div><div class="leadFlowTitle">Two appointments today and 21 due follow-ups give you plenty to work</div><div class="leadFlowCopy">This week already has 2 sales, $5,502.12 Written AV and $3,076.92 Issued AV from Friday. Today starts at zero, so the best use of the afternoon is to work the four open pitch decisions, protect Donna at 4:00 and Jennifer at 6:00, and keep fresh leads running behind them.</div><div class="leadFlowMix"><div><b>35%</b><span>Fresh Lead Flow</span></div><div><b>40%</b><span>Due Follow-Ups</span></div><div><b>25%</b><span>Appointments + Close</span></div></div>`;
+      leadFlow.innerHTML=`<div class="eyebrow">MONDAY GAME PLAN • BUILD FLOW + CLOSE THE WARM MONEY</div><div class="leadFlowTitle">Larry Marion is the first positive response on today’s board</div><div class="leadFlowCopy">Work Larry while the conversation is fresh, then keep moving through the strongest due follow-ups. You still have Donna Burgess at 4:00 and Jennifer Barker at 6:00 as your best scheduled close windows, with fresh lead flow running behind them.</div><div class="leadFlowMix"><div><b>35%</b><span>Fresh Lead Flow</span></div><div><b>40%</b><span>Due Follow-Ups</span></div><div><b>25%</b><span>Appointments + Close</span></div></div>`;
       head.parentNode.insertBefore(leadFlow,head);
       const schedule=document.createElement('section'); schedule.className='card daySchedule';
       schedule.innerHTML=`<div class="eyebrow">CLOSE WINDOWS</div><div class="dayScheduleTitle">Current appointment schedule</div><div class="dayScheduleItems"><span class="dayScheduleItem"><strong>4:00 PM</strong> Donna Burgess — Appointment</span><span class="dayScheduleItem"><strong>6:00 PM</strong> Jennifer Barker — Appointment / Close</span><span class="dayScheduleItem"><strong>Tue 9:30 AM</strong> Christine Milham — Follow-Up</span><span class="dayScheduleItem"><strong>Wed 5:30 PM</strong> Aurora Kramer — Appointment</span><span class="dayScheduleItem"><strong>Sat 11:30 AM</strong> Victoria Thompson — Appointment</span></div>`;
@@ -97,6 +98,7 @@
     }
 
     const patchClient=(name,patch)=>{const row=PIPELINE.find(x=>x.name===name);if(row)Object.assign(row,patch);else PIPELINE.unshift({name,...patch});};
+    patchClient('Larry Marion',{work:'Sep 14',appt:'—',stage:'Positive Response',source:'#2 Exclusive LM'});
     patchClient('Donna Burgess',{work:'Sep 3',appt:'Sep 14 • 4:00 PM',stage:'Appointment Set',source:'Branded'});
     patchClient('Jennifer Barker',{work:'Sep 8',appt:'Sep 14 • 6:00 PM',stage:'Pitch Completed',source:'Montague New'});
     patchClient('Christine Milham',{work:'Sep 9',appt:'Sep 15 • 9:30 AM',stage:'Sold',source:'Montague New',av:6638.52});
@@ -111,7 +113,7 @@
     FOLLOWUPS.splice(0,FOLLOWUPS.length,...freshFollowups);
 
     const pipelineHero=document.querySelector('#pipelineView .snapshot'); if(pipelineHero) pipelineHero.textContent='Current pipeline snapshot • September 14';
-    const pipelineStats=document.querySelectorAll('#pipelineView .statNum'); const pipelineCounts=[39,22,6,10,9,5,24];
+    const pipelineStats=document.querySelectorAll('#pipelineView .statNum'); const pipelineCounts=[40,22,6,10,9,5,24];
     pipelineStats.forEach((el,i)=>{if(i<pipelineCounts.length)el.textContent=pipelineCounts[i];});
     const followHero=document.querySelector('#followupsView .snapshot'); if(followHero) followHero.textContent='Live cadence-due snapshot • September 14';
     const followStats=document.querySelectorAll('#followupsView .statNum'); const followCounts=[21,2,15,4];
