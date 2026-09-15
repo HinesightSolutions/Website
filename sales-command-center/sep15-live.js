@@ -53,10 +53,11 @@
     patchClient('Joy Tennyson',{work:'Sep 14',appt:'Sep 15 • 9:30 AM',stage:'Appointment Set',source:'Carson - Branded'});
     patchClient('Germain Kennard',{work:'Sep 14',appt:'Sep 15 • 1:00 PM',stage:'Appointment Set',source:'Carson - PingPost Exclusive'});
     patchClient('Jennifer Barker',{work:'Sep 14',appt:'Sep 14 • 6:00 PM',stage:'Sold',source:'Montague New',av:16555.08});
+    patchClient('Donna Burgess',{work:'Sep 3',appt:'Sep 14 • 4:00 PM',stage:'Sold',source:'Branded'});
 
     const pipelineHero=document.querySelector('#pipelineView .snapshot');if(pipelineHero)pipelineHero.textContent='Current pipeline snapshot • September 15';
     const pipelineStats=document.querySelectorAll('#pipelineView .statNum');
-    const pipelineCounts=[41,24,5,11,9,5,24];
+    const pipelineCounts=[41,23,5,12,9,5,24];
     pipelineStats.forEach((el,i)=>{if(i<pipelineCounts.length)el.textContent=pipelineCounts[i];});
 
     renderToday();renderPipeline();
