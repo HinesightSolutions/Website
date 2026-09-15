@@ -31,6 +31,13 @@ frame.addEventListener('load',()=>{
       doc.body.appendChild(d);
     }
 
+    if(!doc.querySelector('script[data-sep15-live]')){
+      const t=doc.createElement('script');
+      t.src='sep15-live.js';
+      t.dataset.sep15Live='true';
+      doc.body.appendChild(t);
+    }
+
     if(!doc.querySelector('script[data-quarter-goal]')){
       const q=doc.createElement('script');
       q.src='quarter-goal.js';
