@@ -57,7 +57,7 @@
     patchClient('Stephanie Blackmon',{work:'Sep 15',appt:'Sep 15 • 2:00 PM',stage:'Appointment Set',source:'NextGen Leads'});
     patchClient('Christine Milham',{work:'Sep 15',appt:'No hard appointment set',stage:'Sold',source:'Montague New',av:6638.52});
     patchClient('Paul Creason',{work:'Sep 15',appt:'Sep 15 • 7:30 PM',stage:'Appointment Set',source:'Windback JT Leads'});
-    patchClient('Jennifer Barker',{work:'Sep 14',appt:'Sep 14 • 6:00 PM',stage:'Sold',source:'Montague New',av:16555.08});
+    patchClient('Jennifer Barker',{work:'Sep 14',appt:'Sep 14 • 6:00 PM',stage:'Sold',source:'Montague New',av:16555.08,issued:16555.08});
     patchClient('Donna Burgess',{work:'Sep 3',appt:'Sep 14 • 4:00 PM',stage:'Sold',source:'Branded',av:6694.20,issued:6694.20});
 
     if(typeof FOLLOWUPS!=='undefined'&&!FOLLOWUPS.some(x=>x.name==='Joy Tennyson')){
