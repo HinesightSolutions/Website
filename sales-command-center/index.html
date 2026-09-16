@@ -66,6 +66,13 @@ frame.addEventListener('load',()=>{
       doc.body.appendChild(c);
     }
 
+    if(!doc.querySelector('script[data-interested-pipeline-plan]')){
+      const i=doc.createElement('script');
+      i.src='interested-pipeline-plan.js';
+      i.dataset.interestedPipelinePlan='true';
+      doc.body.appendChild(i);
+    }
+
     if(!doc.querySelector('script[data-touch-progress]')){
       const p=doc.createElement('script');
       p.dataset.touchProgress='true';
